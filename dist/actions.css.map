@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AACG,AACC,eADO,CACP,CAAC,AAAA,OAAO,CAAC;EACP,KAAK,EAAE,MAAM;CACd",
-    "sources": [
-        "../app/scss/actions.scss"
-    ],
-    "names": [],
-    "file": "actions.css"
-}
