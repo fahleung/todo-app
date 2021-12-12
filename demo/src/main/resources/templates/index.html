@@ -6,6 +6,7 @@
   
     <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
     <link rel="stylesheet" href="dist/styles.css">
+    <link rel="stylesheet" href="dist/styles.css">
     
     <title>Frontend Mentor | Todo app</title>
   
@@ -15,13 +16,32 @@
       .attribution a { color: hsl(228, 45%, 44%); }
     </style>
   </head>
-  <body class="index-bg">
-    <div class="flex flex-jc-c">
-      <div class="flex-d-col">
-        <h1>Welcome to Todo App !</h1>
-        <h2><a th:href="@{/register}">Register</a></h2>
-        <h2><a th:href="@{/login}">Login</a></h2>
-      </div>
+  <body class="index bg">
+    <div class="index__box text-a-c flex">
+          <div class="index__description">
+            <h2>Welcome to Todo App !</h2>
+            <p>
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+            </p>
+            <h3>You don't have an account ?</h3>
+            <a th:href="@{/register}">Register</a>
+          </div>
+          <div class="index__form">
+            <h2>Login to continue !</h2>
+            <div class="flex flex-d-col">
+              <label for="name">Name</label>
+              <input name="name" type="text">
+            </div>
+            <div class="flex flex-d-col">
+              <label for="password">Password</label>
+              <input name="password" type="password">
+            </div>
+            <div class="flex flex-d-col">
+              <label for="email">Email</label>
+              <input name="email" type="email">
+            </div>
+            <a th:href="@{/login}">Login</a>
+          </div>
     </div>
   </body>
 </html>

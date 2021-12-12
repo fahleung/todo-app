@@ -1,0 +1,30 @@
+.index {
+  &.bg {
+    background-color: #00203fff;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  &__box {
+    border: 1px solid grey;
+    border-radius: 8px;
+    color: $white-2;
+    width: 70%;
+    margin: 0 auto;
+    margin-top: 10rem;
+  }
+  &__description {
+    width: 50%;
+    background-color: #adefd1ff;
+    padding: 2rem;
+    color: #00203fff;
+  }
+  &__form {
+    h2 {
+      color: #00203fff;
+    }
+    width: 50%;
+    background-color: $white;
+    padding: 2rem;
+    color: black;
+  }
+}

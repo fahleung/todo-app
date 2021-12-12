@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AACE,MADI,AACH,GAAG,CAAC;EACH,gBAAgB,EAAE,mDAAmD;EACrE,eAAe,EAAE,KAAK;EACtB,iBAAiB,EAAE,SAAS;CAC7B",
+    "sources": [
+        "../../../../../target/classes/static/app/scss/index.scss"
+    ],
+    "names": [],
+    "file": "index.css"
+}
