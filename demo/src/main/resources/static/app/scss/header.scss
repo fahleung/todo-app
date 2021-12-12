@@ -1,0 +1,35 @@
+.header {
+  &__title {
+    margin: 2rem 2rem 2rem;
+  }
+  h1 {
+    color: $white;
+    font-weight: 600;
+  }
+  input {
+    margin: 0 2rem 2rem 2rem;
+    padding: 1.2rem;
+    border-radius: 0.5rem;
+    font-weight: bolder;
+    &.light {
+      background-color: $white;
+    }
+    &.dark {
+      background-color: $dark;
+      color: $white;
+    }
+  }
+  &__theme {
+    cursor: pointer;
+  }
+  &.light {
+    background-image: url("../../images/bg-mobile-light.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  &.dark {
+    background-image: url("../../images/bg-mobile-dark.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+}

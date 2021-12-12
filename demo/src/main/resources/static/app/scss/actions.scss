@@ -1,0 +1,11 @@
+.action {
+  &__option {
+    margin-top: 2rem;
+    .active {
+      color: $blue;
+    }
+    a:hover {
+      color: $grey-2;
+    }
+  }
+}
