@@ -28,19 +28,17 @@
           </div>
           <div class="index__form">
             <h2>Login to continue !</h2>
-            <div class="flex flex-d-col">
-              <label for="name">Name</label>
-              <input name="name" type="text">
+            <div>
+              <form action="@{/login}">
+                <label for="name">Name</label>
+                <input name="name" type="text" class="input_text">
+                <label for="password">Password</label>
+                <input name="password" type="password" class="input_text">
+                <label for="email">Email</label>
+                <input name="email" type="email" class="input_text">
+                <input name="login" type="submit" value="Submit">
+              </form>
             </div>
-            <div class="flex flex-d-col">
-              <label for="password">Password</label>
-              <input name="password" type="password">
-            </div>
-            <div class="flex flex-d-col">
-              <label for="email">Email</label>
-              <input name="email" type="email">
-            </div>
-            <a th:href="@{/login}">Login</a>
           </div>
     </div>
   </body>

@@ -261,7 +261,7 @@ ul {
 }
 
 .index.bg {
-  background-color: #00203fff;
+  background-image: url("../../images/abstract-grunge-decorative-relief-navy-blue-stucco-wall-texture-wide-angle-rough-colored-background.jpg");
   background-size: cover;
   background-repeat: no-repeat;
 }
@@ -277,9 +277,10 @@ ul {
 
 .index__description {
   width: 50%;
-  background-color: #adefd1ff;
+  background-image: url("../../images/SL_043021_42650_02.jpg");
+  background-size: cover;
   padding: 2rem;
-  color: #00203fff;
+  color: #f6f6f6;
 }
 
 .index__form {
@@ -291,5 +292,28 @@ ul {
 
 .index__form h2 {
   color: #00203fff;
+}
+
+.index__form input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.index input[type="submit"],
+.index a {
+  width: 100%;
+  background-color: #00203fff;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
 /*# sourceMappingURL=styles.css.map */
