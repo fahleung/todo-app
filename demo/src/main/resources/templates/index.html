@@ -19,27 +19,39 @@
   <body class="index bg">
     <div class="index__box text-a-c flex">
           <div class="index__description">
+            <p id="goBackArrow" class="invisible"><i class="arrow left"></i> Go back</p>
             <h2>Welcome to Todo App !</h2>
             <p>
               Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
             </p>
             <h3>You don't have an account ?</h3>
-            <a th:href="@{/register}">Register</a>
+            <a id="goToRegister">Register</a>
           </div>
           <div class="index__form">
-            <h2>Login to continue !</h2>
+            <h2 id="index__form_title" >Login to continue !</h2>
             <div>
-              <form action="@{/login}">
+              <form id="login_form" action="@{/login}">
                 <label for="name">Name</label>
                 <input name="name" type="text" class="input_text">
                 <label for="password">Password</label>
                 <input name="password" type="password" class="input_text">
+                <input name="login" type="submit" value="Submit">
+              </form>
+              <form id="register_form" class="invisible" action="@{/register}">
+                <label for="name">Name</label>
+                <input name="name" type="text" class="input_text">
+                <label for="password">Password</label>
+                <input name="password" type="password" class="input_text">
+                <label for="confirm_password">Confirm password</label>
+                <input name="confirm_password" type="password" class="input_text">
                 <label for="email">Email</label>
                 <input name="email" type="email" class="input_text">
-                <input name="login" type="submit" value="Submit">
+                <input name="register" type="submit" value="Submit">
               </form>
             </div>
           </div>
     </div>
   </body>
-</html>
+  <script src="app/js/index.js"></script>
+  </html>
+

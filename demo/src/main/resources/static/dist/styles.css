@@ -151,6 +151,19 @@ ul {
   display: none;
 }
 
+.arrow {
+  border: solid #f6f6f6;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+  cursor: pointer;
+}
+
+.arrow.left {
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+}
+
 .header__title {
   margin: 2rem 2rem 2rem;
 }
