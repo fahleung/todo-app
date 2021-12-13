@@ -1,12 +1,14 @@
 package com.fahleung.demo.user;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,8 +28,10 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public void login(@RequestBody User user) {
-
+    public User login(@RequestParam Map<String, String> params) {
+        String email = params.get("email");
+        String password = params.get("password");
+        return userService.logUser(email, password);
     }
 
     @PostMapping("/register")
