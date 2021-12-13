@@ -30,20 +30,20 @@
           <div class="index__form">
             <h2 id="index__form_title" >Login to continue !</h2>
             <div>
-              <form id="login_form" action="@{/login}">
+              <form id="login_form" th:action="@{api/users/login}" method="post">
                 <label for="name">Name</label>
                 <input name="name" type="text" class="input_text">
                 <label for="password">Password</label>
                 <input name="password" type="password" class="input_text">
                 <input name="login" type="submit" value="Submit">
               </form>
-              <form id="register_form" class="invisible" action="@{/register}">
+              <form id="register_form" class="invisible" th:action="@{api/users/register}" method="post">
                 <label for="name">Name</label>
                 <input name="name" type="text" class="input_text">
                 <label for="password">Password</label>
                 <input name="password" type="password" class="input_text">
-                <label for="confirm_password">Confirm password</label>
-                <input name="confirm_password" type="password" class="input_text">
+                <!--<label for="confirm_password">Confirm password</label>
+                <input th:field="*{confirm}" name="confirm_password" type="password" class="input_text">>-->
                 <label for="email">Email</label>
                 <input name="email" type="email" class="input_text">
                 <input name="register" type="submit" value="Submit">
