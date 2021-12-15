@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+  
+    <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+    <link rel="stylesheet" href="../dist/styles.css">
+
+    <title>Frontend Mentor | Todo app</title>
+  
+    <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+    <style>
+      .attribution { font-size: 11px; text-align: center; }
+      .attribution a { color: hsl(228, 45%, 44%); }
+    </style>
+  </head>
+  <body class="login bg">
+    <div class="login__box text-a-c flex">
+          <div class="login__description">
+            <p id="goBackArrow" class="invisible"><i class="arrow left"></i> Go back</p>
+            <h2>Welcome to Todo App !</h2>
+              <h3>What you can do :</h3>
+              <ul>
+                <li>Manage your tasks</li>
+              </ul>
+              <h3>Look forward to :</h3>
+              <ul>
+                <li>Sort your tasks with different tasklist</li>
+                <li>Assign tasks</li>
+              </ul>
+            <h3>You don't have an account ?</h3>
+            <a id="goToRegister">Register</a>
+          </div>
+          <div class="login__form">
+            <h2 id="login__form_title" >Login to continue !</h2>
+            <div>
+              <form id="login_form" th:action="@{/login}" method="post">
+                <div>
+                  <label for="username">Name</label>
+                  <input name="username" type="text" class="input_text">
+                </div>
+                <div>
+                  <label for="password">Password</label>
+                  <input name="password" type="password" class="input_text">
+                </div>
+                <div class="login__checkbox">
+                  <label for="remember-me">Remember me ?</label>
+                  <input type="checkbox" id="remember-me" name="remember-me">
+                </div>
+                <input name="login" type="submit" value="Submit">
+              </form>
+              <form id="register_form" class="invisible" th:action="@{users/register}" method="post" th:object="${user}">
+                <div>
+                  <label for="name">Name</label>
+                  <input name="name" type="text" class="input_text" th:field="*{name}">
+                </div>
+                <div>
+                  <label for="password">Password</label>
+                  <input name="password" type="password" class="input_text" th:field="*{password}">
+                </div>
+                <div>
+                  <label for="confirm_password">Confirm password</label>
+                  <input name="confirm_password" type="password" class="input_text" th:field="*{confirmPassword}">
+                </div>
+                <div>
+                  <label for="email">Email</label>
+                  <input name="email" type="email" class="input_text" th:field="*{email}">
+                </div>
+                <input name="register" type="submit" value="Submit">
+              </form>
+            </div>
+          </div>
+    </div>
+  </body>
+  <script src="app/js/login.js"></script>
+  </html>
+

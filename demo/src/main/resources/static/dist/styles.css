@@ -172,6 +172,19 @@ ul {
   font-weight: 600;
 }
 
+.header button {
+  background-color: #0000ff;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
 .header input {
   margin: 0 2rem 2rem 2rem;
   padding: 1.2rem;
@@ -272,13 +285,13 @@ ul {
   color: #525252;
 }
 
-.index.bg {
+.login.bg {
   background-image: url("../../images/abstract-grunge-decorative-relief-navy-blue-stucco-wall-texture-wide-angle-rough-colored-background.jpg");
   background-size: cover;
   background-repeat: no-repeat;
 }
 
-.index__box {
+.login__box {
   border: 1px solid grey;
   border-radius: 8px;
   color: #e1e1e1;
@@ -287,7 +300,7 @@ ul {
   margin-top: 10rem;
 }
 
-.index__description {
+.login__description {
   width: 50%;
   background-image: url("../../images/SL_043021_42650_02.jpg");
   background-size: cover;
@@ -295,18 +308,18 @@ ul {
   color: #f6f6f6;
 }
 
-.index__form {
+.login__form {
   width: 50%;
   background-color: #f6f6f6;
   padding: 2rem;
   color: black;
 }
 
-.index__form h2 {
+.login__form h2 {
   color: #00203fff;
 }
 
-.index__form input {
+.login__form input {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -317,8 +330,8 @@ ul {
           box-sizing: border-box;
 }
 
-.index input[type="submit"],
-.index a {
+.login input[type="submit"],
+.login a {
   width: 100%;
   background-color: #00203fff;
   color: white;
@@ -327,5 +340,16 @@ ul {
   border: none;
   border-radius: 4px;
   cursor: pointer;
+}
+
+.login__checkbox {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 10px;
+}
+
+.login__checkbox input {
+  width: auto;
 }
 /*# sourceMappingURL=styles.css.map */

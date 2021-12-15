@@ -2,7 +2,6 @@ package com.fahleung.demo.user;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,17 +19,19 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void addNewUser(User user) {
+    public User addNewUser(User user) {
         Optional<User> userOptional = userRepository.findUserByEmail(user.getEmail());
         if (userOptional.isPresent()) {
             throw new IllegalStateException("email taken");
         } else {
+
             userRepository.save(user);
+            return user;
         }
     }
 
-    public User logUser(String email, String password) {
-        Optional<User> userOptional = userRepository.findUserByEmail(email);
+    public User logUser(User user) {
+        Optional<User> userOptional = userRepository.findUserByEmail(user.getEmail());
         if (!userOptional.isPresent()) {
             throw new IllegalStateException("user not found");
         } else {
@@ -38,6 +39,13 @@ public class UserService {
             System.out.println("good");
         }
         return null;
+    }
+
+    public boolean checkIfUserExist(String email) {
+        if (userRepository.findUserByEmail(email).isPresent()) {
+            return true;
+        }
+        return false;
     }
 
 }

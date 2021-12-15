@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.thymeleaf.org">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
   
     <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
-    <link rel="stylesheet" href="../dist/styles.css">
-
+    <link rel="stylesheet" href="dist/styles.css">
+    
     <title>Frontend Mentor | Todo app</title>
   
     <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
@@ -15,42 +13,38 @@
       .attribution a { color: hsl(228, 45%, 44%); }
     </style>
   </head>
-  <body class="index bg">
-    <div class="index__box text-a-c flex">
-          <div class="index__description">
-            <p id="goBackArrow" class="invisible"><i class="arrow left"></i> Go back</p>
-            <h2>Welcome to Todo App !</h2>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-            </p>
-            <h3>You don't have an account ?</h3>
-            <a id="goToRegister">Register</a>
-          </div>
-          <div class="index__form">
-            <h2 id="index__form_title" >Login to continue !</h2>
-            <div>
-              <form id="login_form" th:action="@{api/users/login}" method="post">
-                <label for="email">Email</label>
-                <input name="email" type="text" class="input_text">
-                <label for="password">Password</label>
-                <input name="password" type="password" class="input_text">
-                <input name="login" type="submit" value="Submit">
-              </form>
-              <!--<form id="register_form" class="invisible" th:action="@{api/users/register}" method="post">
-                <label for="name">Name</label>
-                <input name="name" type="text" class="input_text">
-                <label for="password">Password</label>
-                <input name="password" type="password" class="input_text">
-                <label for="confirm_password">Confirm password</label>
-                <input name="confirm_password" type="password" class="input_text">
-                <label for="email">Email</label>
-                <input name="email" type="email" class="input_text">
-                <input name="register" type="submit" value="Submit">
-              </form>-->
-            </div>
-          </div>
+  <body class="light">
+    <header class="flex flex-d-col header light">
+      <form method="post" th:action="@{/logout}">
+        <button class="" type="submit">Logout</button>
+      </form>
+      <div class="header__title flex flex-jc-sb flex-ai-c">
+        <h1>T O D O</h1>
+        <img id="theme" class="header__theme" src="images/icon-moon.svg" alt="theme switch">
+      </div>
+      <input id="add_todo" type="text" class="light" name="add_todo" placeholder="Create a new todo...">
+    </header>
+  
+    <ul id="list" class="list flex flex-d-col">
+    </ul>
+  
+    <div class="action__option flex flex-jc-sa">    
+      <span id="item_left">0 items left</span>
+      <a id="clear_completed">Clear Completed</a>
     </div>
+  
+    <div class="list__filter flex flex-jc-c gap-20">
+      <a id="all" class="active">All</a>
+      <a id="active">Active</a>
+      <a id="completed">Completed</a>
+    </div>
+    <h4 class="text-a-c">Drag and drop to reorder list</h4>
+  
+    <div class="attribution">
+      Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+      Coded by <a href="#">Fabien AH-LEUNG</a>.
+    </div>
+    <script src="app/js/variables.js"></script>
+    <script src="app/js/functions.js"></script>
+    <script src="app/js/scripts.js"></script>
   </body>
-  <script src="app/js/index.js"></script>
-  </html>
-
