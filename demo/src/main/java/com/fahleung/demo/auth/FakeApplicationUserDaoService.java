@@ -22,9 +22,13 @@ public class FakeApplicationUserDaoService implements ApplicationUserDao {
     }
 
     @Override
-    public Optional<ApplicationUser> selectApplicationUserByUsername(String name) {
-        return getApplicationUsers().stream().filter(applicationUser -> name.equals(applicationUser.getUsername()))
-                .findFirst();
+    public ApplicationUser selectApplicationUserByUsername(String name) {
+        /*
+         * return getApplicationUsers().stream().filter(applicationUser ->
+         * name.equals(applicationUser.getUsername()))
+         * .findFirst();
+         */
+        return null;
     }
 
     private List<ApplicationUser> getApplicationUsers() {

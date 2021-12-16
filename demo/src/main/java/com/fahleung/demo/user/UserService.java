@@ -24,7 +24,6 @@ public class UserService {
         if (userOptional.isPresent()) {
             throw new IllegalStateException("email taken");
         } else {
-
             userRepository.save(user);
             return user;
         }
@@ -35,17 +34,8 @@ public class UserService {
         if (!userOptional.isPresent()) {
             throw new IllegalStateException("user not found");
         } else {
-
             System.out.println("good");
         }
         return null;
     }
-
-    public boolean checkIfUserExist(String email) {
-        if (userRepository.findUserByEmail(email).isPresent()) {
-            return true;
-        }
-        return false;
-    }
-
 }

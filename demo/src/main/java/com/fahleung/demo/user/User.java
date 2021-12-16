@@ -1,6 +1,10 @@
 package com.fahleung.demo.user;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -10,6 +14,10 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import com.fahleung.demo.security.ApplicationUserRole;
+
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Entity
 @Table(name = "users")
@@ -35,6 +43,12 @@ public class User {
     @NotEmpty
     @NotBlank
     private String email;
+    @Enumerated(EnumType.STRING)
+    private ApplicationUserRole role = ApplicationUserRole.USER;
+    private boolean isAccountNonExpired = true;
+    private boolean isAccountNonLocked = true;
+    private boolean isCredentialsNonExpired = true;
+    private boolean isEnabled = true;
 
     public User() {
 
@@ -81,6 +95,30 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public ApplicationUserRole getRole() {
+        return role;
+    }
+
+    public void setRole(ApplicationUserRole role) {
+        this.role = role;
+    }
+
+    public boolean isAccountNonExpired() {
+        return isAccountNonExpired;
+    }
+
+    public boolean isAccountNonLocked() {
+        return isAccountNonLocked;
+    }
+
+    public boolean isCredentialsNonExpired() {
+        return isCredentialsNonExpired;
+    }
+
+    public boolean isEnabled() {
+        return isEnabled;
     }
 
 }

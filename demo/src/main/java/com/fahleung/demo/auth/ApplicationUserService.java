@@ -13,15 +13,13 @@ public class ApplicationUserService implements UserDetailsService {
     private final ApplicationUserDao applicationUserDao;
 
     @Autowired
-    public ApplicationUserService(@Qualifier("fake") ApplicationUserDao applicationUserDao) {
+    public ApplicationUserService(@Qualifier("ApplicationUserDaoService") ApplicationUserDao applicationUserDao) {
         this.applicationUserDao = applicationUserDao;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return applicationUserDao
-                .selectApplicationUserByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(String.format("User %s not found", username)));
+        return applicationUserDao.selectApplicationUserByUsername(username);
     }
 
 }
