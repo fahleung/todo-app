@@ -3,8 +3,9 @@ package com.fahleung.demo.auth;
 import java.util.List;
 import java.util.Optional;
 
+import com.fahleung.demo.user.User;
+import com.fahleung.demo.user.UserDao;
 import com.google.common.collect.Lists;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import static com.fahleung.demo.security.ApplicationUserRole.*;
 
 @Repository("fake")
-public class FakeApplicationUserDaoService implements ApplicationUserDao {
+public class FakeApplicationUserDaoService implements UserDao {
 
     private final PasswordEncoder passwordEncoder;
 
@@ -22,7 +23,7 @@ public class FakeApplicationUserDaoService implements ApplicationUserDao {
     }
 
     @Override
-    public ApplicationUser selectApplicationUserByUsername(String name) {
+    public Optional<User> selectUserByUsername(String name) {
         /*
          * return getApplicationUsers().stream().filter(applicationUser ->
          * name.equals(applicationUser.getUsername()))
@@ -31,15 +32,15 @@ public class FakeApplicationUserDaoService implements ApplicationUserDao {
         return null;
     }
 
-    private List<ApplicationUser> getApplicationUsers() {
-        List<ApplicationUser> applicationUsers = Lists.newArrayList(
-                new ApplicationUser(USER.getGrantedAuthorities(), passwordEncoder.encode("test"), "test", true, true,
+    private List<User> getApplicationUsers() {
+        return Lists.newArrayList(
+                new User(USER.getGrantedAuthorities(), passwordEncoder.encode("test"), "test", true, true,
                         true, true),
-                new ApplicationUser(ADMIN.getGrantedAuthorities(), passwordEncoder.encode("hugo"), "test", true, true,
+                new User(ADMIN.getGrantedAuthorities(), passwordEncoder.encode("hugo"), "test", true, true,
                         true, true),
-                new ApplicationUser(USER.getGrantedAuthorities(), passwordEncoder.encode("bob"), "test", true, true,
+                new User(USER.getGrantedAuthorities(), passwordEncoder.encode("bob"), "test", true, true,
                         true, true));
-        return applicationUsers;
+
     }
 
 }

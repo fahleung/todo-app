@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,8 +31,13 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public User registerNewUser(@Valid @ModelAttribute User user) {
-        return userService.addNewUser(user);
-    }
+    public String registerUser(@Valid @ModelAttribute User user, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "login";
+        } else {
+            userService.register(user);
+            return "index";
+        }
 
+    }
 }

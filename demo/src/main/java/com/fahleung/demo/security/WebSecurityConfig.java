@@ -14,7 +14,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static com.fahleung.demo.security.ApplicationUserRole.*;
 
-import com.fahleung.demo.auth.ApplicationUserService;
+import com.fahleung.demo.user.UserService;
 
 @Configuration
 @EnableWebSecurity
@@ -22,29 +22,30 @@ import com.fahleung.demo.auth.ApplicationUserService;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
-    private final ApplicationUserService applicationUserService;
+    private final UserService userService;
+    private static final String login = "login";
 
     @Autowired
-    public WebSecurityConfig(PasswordEncoder passwordEncoder, ApplicationUserService applicationUserService) {
+    public WebSecurityConfig(PasswordEncoder passwordEncoder, UserService userService) {
         this.passwordEncoder = passwordEncoder;
-        this.applicationUserService = applicationUserService;
+        this.userService = userService;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests() // re enable later csrf
-                .antMatchers("/login", "/dist/*", "/images/*", "/app/js/**").permitAll()
-                .antMatchers("/api/**").hasRole(USER.name())
+                .antMatchers("/" + login, "/users/register", "/dist/*", "/images/*", "/app/js/**").permitAll()
+                .antMatchers("/users/**").hasRole(USER.name())
                 .anyRequest().authenticated()
                 .and()
-                .formLogin().loginPage("/login").permitAll()
+                .formLogin().loginPage("/" + login).permitAll()
                 .defaultSuccessUrl("/index", true)
                 .and()
                 .rememberMe()
                 .and()
                 .logout().logoutUrl("/logout").logoutRequestMatcher(new AntPathRequestMatcher("/logout", "POST"))
                 .clearAuthentication(true).invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID", "remember-me").logoutSuccessUrl("/login");
+                .deleteCookies("JSESSIONID", "remember-me").logoutSuccessUrl("/" + login);
     }
 
     @Override
@@ -56,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setPasswordEncoder(passwordEncoder);
-        provider.setUserDetailsService(applicationUserService);
+        provider.setUserDetailsService(userService);
         return provider;
     }
 }

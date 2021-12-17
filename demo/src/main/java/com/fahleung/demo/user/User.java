@@ -1,5 +1,6 @@
 package com.fahleung.demo.user;
 
+import java.util.Collection;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -11,17 +12,21 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fahleung.demo.security.ApplicationUserRole;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
     @Id
     @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
@@ -29,19 +34,19 @@ public class User {
     @NotNull
     @NotEmpty
     @NotBlank
-    private String name;
+    @Size(min = 2, message = "User name should have at least 2 characters")
+    private String username;
     @NotNull
     @NotEmpty
     @NotBlank
+    @Size(min = 8, message = "Password should have at least 8 characters")
     private String password;
-    @NotNull
-    @NotEmpty
-    @NotBlank
     @Transient
     private String confirmPassword;
     @NotNull
     @NotEmpty
     @NotBlank
+    @Email
     private String email;
     @Enumerated(EnumType.STRING)
     private ApplicationUserRole role = ApplicationUserRole.USER;
@@ -54,23 +59,25 @@ public class User {
 
     }
 
-    public User(String name, String password, String confirmPassword, String email) {
-        this.name = name;
+    public User(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+
+    public User(String username, String password, String confirmPassword, String email) {
+        this.username = username;
         this.password = password;
         this.confirmPassword = confirmPassword;
         this.email = email;
     }
 
+    public User(Set<SimpleGrantedAuthority> grantedAuthorities, String encode, String string, boolean b, boolean c,
+            boolean d, boolean e) {
+    }
+
     public Long getId() {
         return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getPassword() {
@@ -119,6 +126,20 @@ public class User {
 
     public boolean isEnabled() {
         return isEnabled;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.role.getGrantedAuthorities();
+    }
+
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
 }

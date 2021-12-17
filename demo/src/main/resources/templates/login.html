@@ -50,22 +50,26 @@
                 </div>
                 <input name="login" type="submit" value="Submit">
               </form>
-              <form id="register_form" class="invisible" th:action="@{users/register}" method="post" th:object="${user}">
+              <form id="register_form" class="invisible" th:action="@{/users/register}" method="post" th:object="${user}">
                 <div>
-                  <label for="name">Name</label>
-                  <input name="name" type="text" class="input_text" th:field="*{name}">
+                  <label for="username">Name</label>
+                  <input name="username" type="text" class="input_text" th:field="*{username}">
+                  <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name Error</p>
                 </div>
                 <div>
                   <label for="password">Password</label>
                   <input name="password" type="password" class="input_text" th:field="*{password}">
+                  <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</p>
                 </div>
                 <div>
-                  <label for="confirm_password">Confirm password</label>
-                  <input name="confirm_password" type="password" class="input_text" th:field="*{confirmPassword}">
+                  <label for="confirmPassword">Confirm password</label>
+                  <input name="confirmPassword" type="password" class="input_text" th:field="*{confirmPassword}">
+                  <p th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">Password Error</p>
                 </div>
                 <div>
                   <label for="email">Email</label>
                   <input name="email" type="email" class="input_text" th:field="*{email}">
+                  <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</p>
                 </div>
                 <input name="register" type="submit" value="Submit">
               </form>
