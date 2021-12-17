@@ -72,10 +72,6 @@ public class User implements UserDetails {
         this.email = email;
     }
 
-    public User(Set<SimpleGrantedAuthority> grantedAuthorities, String encode, String string, boolean b, boolean c,
-            boolean d, boolean e) {
-    }
-
     public Long getId() {
         return id;
     }

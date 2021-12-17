@@ -34,6 +34,11 @@
           </div>
           <div class="login__form">
             <h2 id="login__form_title" >Login to continue !</h2>
+            <div th:if="${param.error}">
+              <div class="login__alert">
+                  Invalid username or password.
+              </div>
+            </div>
             <div>
               <form id="login_form" th:action="@{/login}" method="post">
                 <div>

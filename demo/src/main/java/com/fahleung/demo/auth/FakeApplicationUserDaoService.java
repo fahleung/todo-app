@@ -33,13 +33,19 @@ public class FakeApplicationUserDaoService implements UserDao {
     }
 
     private List<User> getApplicationUsers() {
-        return Lists.newArrayList(
-                new User(USER.getGrantedAuthorities(), passwordEncoder.encode("test"), "test", true, true,
-                        true, true),
-                new User(ADMIN.getGrantedAuthorities(), passwordEncoder.encode("hugo"), "test", true, true,
-                        true, true),
-                new User(USER.getGrantedAuthorities(), passwordEncoder.encode("bob"), "test", true, true,
-                        true, true));
+        return null;
+        /*
+         * Lists.newArrayList(
+         * new User(USER.getGrantedAuthorities(), passwordEncoder.encode("test"),
+         * "test", true, true,
+         * true, true),
+         * new User(ADMIN.getGrantedAuthorities(), passwordEncoder.encode("hugo"),
+         * "test", true, true,
+         * true, true),
+         * new User(USER.getGrantedAuthorities(), passwordEncoder.encode("bob"), "test",
+         * true, true,
+         * true, true));
+         */
 
     }
 

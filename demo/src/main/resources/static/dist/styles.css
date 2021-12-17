@@ -307,6 +307,13 @@ ul {
   color: #f6f6f6;
 }
 
+.login__alert {
+  margin: 1rem;
+  padding: 1rem;
+  background-color: #00203fff;
+  color: #f6f6f6;
+}
+
 .login__form {
   width: 50%;
   background-color: #f6f6f6;

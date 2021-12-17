@@ -20,6 +20,12 @@
     padding: 2rem;
     color: $white;
   }
+  &__alert {
+    margin: 1rem;
+    padding: 1rem;
+    background-color: $blue-login;
+    color: $white;
+  }
   &__form {
     h2 {
       color: $blue-login;
