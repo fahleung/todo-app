@@ -3,6 +3,7 @@ var registerForm = document.querySelector("#register_form");
 var loginForm = document.querySelector("#login_form");
 var goBackArrow = document.querySelector("#goBackArrow");
 const loginFormTitle = document.querySelector("#login__form_title");
+const error = document.querySelector("#error");
 
 
 goToRegisterLink.addEventListener("click", function()
@@ -12,6 +13,10 @@ goToRegisterLink.addEventListener("click", function()
     loginFormTitle.innerHTML = "Register to continue !";
     goToRegisterLink.classList.add("invisible");
     goBackArrow.classList.remove("invisible");
+    if(error != null && !error.classList.contains("invisible"))
+    {
+        error.classList.add("invisible");
+    }
 })
 
 goBackArrow.addEventListener("click", function()

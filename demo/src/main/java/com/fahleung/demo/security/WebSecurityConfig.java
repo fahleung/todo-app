@@ -34,7 +34,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests() // re enable later csrf
-                .antMatchers("/" + login, "/users/register", "/dist/*", "/images/*", "/app/js/**").permitAll()
+                .antMatchers("/" + login, "/users/register", "/dist/*", "/images/*", "/app/js/*").permitAll()
                 .antMatchers("/users/**").hasRole(USER.name())
                 .anyRequest().authenticated()
                 .and()

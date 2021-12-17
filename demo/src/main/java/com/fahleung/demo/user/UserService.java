@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -30,18 +31,18 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public User register(User user) {
+    public String register(User user) {
         Optional<User> userOptional = userRepository.findUserByEmail(user.getEmail());
         if (userOptional.isPresent()) {
-            throw new IllegalStateException("email taken");
+            return "";
         } else {
             if (user.getPassword().equals(user.getConfirmPassword())) {
                 User userRegister = new User(user.getUsername(), passwordEncoder.encode(user.getPassword()),
                         user.getEmail());
                 userRepository.save(userRegister);
-                return userRegister;
+                return "";
             } else {
-                throw new IllegalStateException("password do not match");
+                return "";
             }
         }
     }

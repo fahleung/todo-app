@@ -34,9 +34,14 @@
           </div>
           <div class="login__form">
             <h2 id="login__form_title" >Login to continue !</h2>
-            <div th:if="${param.error}">
+            <div id="error" th:if="${param.error}">
               <div class="login__alert">
                   Invalid username or password.
+              </div>
+            </div>
+            <div th:if="${param.res}">
+              <div class="login__alert">
+                  Account created. Please login.
               </div>
             </div>
             <div>
@@ -82,6 +87,6 @@
           </div>
     </div>
   </body>
-  <script src="app/js/login.js"></script>
+  <script src="../app/js/login.js"></script>
   </html>
 

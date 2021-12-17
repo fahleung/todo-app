@@ -21,7 +21,6 @@ import javax.validation.constraints.Size;
 import com.fahleung.demo.security.ApplicationUserRole;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity

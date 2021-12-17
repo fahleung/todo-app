@@ -36,7 +36,7 @@ public class UserController {
             return "login";
         } else {
             userService.register(user);
-            return "index";
+            return "redirect:/login?success=true";
         }
 
     }
