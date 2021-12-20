@@ -14,7 +14,7 @@ function createItem(id, text) {
     //span setup
     span.classList.add('flex');
     span.classList.add('flex-ai-c');
-    span.classList.add('gap-20');
+    span.classList.add('gap-1-10');
     //check img setup
     check_img.id = "check_id_" + id;
     check_img.classList.add('border-white');
