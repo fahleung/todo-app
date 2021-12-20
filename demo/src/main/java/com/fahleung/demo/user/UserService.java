@@ -5,12 +5,12 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -31,29 +31,34 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
-    public String register(User user) {
+    public BindingResult register(User user, BindingResult bindingResult) {
         Optional<User> userOptional = userRepository.findUserByEmail(user.getEmail());
         if (userOptional.isPresent()) {
-            return "";
-        } else {
-            if (user.getPassword().equals(user.getConfirmPassword())) {
-                User userRegister = new User(user.getUsername(), passwordEncoder.encode(user.getPassword()),
-                        user.getEmail());
-                userRepository.save(userRegister);
-                return "";
-            } else {
-                return "";
-            }
+            bindingResult.rejectValue("email", "email.user", "Email already taken");
         }
+        if (!(user.getPassword().equals(user.getConfirmPassword()))) {
+            bindingResult.rejectValue("password", "password.user", "Passwords do not match");
+        }
+        if (!bindingResult.hasErrors()) {
+            User userRegister = new User(user.getUsername(), passwordEncoder.encode(user.getPassword()),
+                    user.getEmail());
+            userRepository.save(userRegister);
+        }
+        return bindingResult;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userDao.selectUserByUsername(username);
-        if (user.isPresent()) {
-            return user.get();
-        } else {
-            throw new UsernameNotFoundException(String.format("Username %s not found", username));
+        return userDao.selectUserByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("Username %s not found", username)));
+    }
+
+    public boolean isEmailAlreadyInUse(String value) {
+        System.out.println("test");
+        Optional<User> userOptional = userRepository.findUserByEmail(value);
+        if (userOptional.isPresent()) {
+            return true;
         }
+        return false;
     }
 }

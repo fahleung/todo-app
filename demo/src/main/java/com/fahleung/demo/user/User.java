@@ -1,8 +1,6 @@
 package com.fahleung.demo.user;
 
 import java.util.Collection;
-import java.util.Set;
-
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -14,7 +12,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -31,19 +28,16 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
     private Long id;
     @NotNull
-    @NotEmpty
     @NotBlank
     @Size(min = 2, message = "User name should have at least 2 characters")
     private String username;
     @NotNull
-    @NotEmpty
     @NotBlank
     @Size(min = 8, message = "Password should have at least 8 characters")
     private String password;
     @Transient
     private String confirmPassword;
     @NotNull
-    @NotEmpty
     @NotBlank
     @Email
     private String email;
