@@ -1,12 +1,17 @@
 package com.fahleung.demo.user;
 
 import java.util.Collection;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -16,6 +21,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fahleung.demo.security.ApplicationUserRole;
+import com.fahleung.demo.task.Tasklist;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,7 +32,7 @@ public class User implements UserDetails {
     @Id
     @SequenceGenerator(name = "user_sequence", sequenceName = "user_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_sequence")
-    private Long id;
+    private Long user_id;
     @NotNull
     @NotBlank
     @Size(min = 2, message = "User name should have at least 2 characters")
@@ -48,6 +54,9 @@ public class User implements UserDetails {
     private boolean isCredentialsNonExpired = true;
     private boolean isEnabled = true;
 
+    @OneToMany(targetEntity = Tasklist.class, mappedBy = "tasklist_id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Tasklist> tasklists;
+
     public User() {
 
     }
@@ -66,7 +75,7 @@ public class User implements UserDetails {
     }
 
     public Long getId() {
-        return id;
+        return user_id;
     }
 
     public String getPassword() {
@@ -129,6 +138,14 @@ public class User implements UserDetails {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Set<Tasklist> getTasklists() {
+        return tasklists;
+    }
+
+    public void setTasklists(Set<Tasklist> tasklists) {
+        this.tasklists = tasklists;
     }
 
 }

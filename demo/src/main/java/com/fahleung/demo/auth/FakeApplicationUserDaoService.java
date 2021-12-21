@@ -5,12 +5,9 @@ import java.util.Optional;
 
 import com.fahleung.demo.user.User;
 import com.fahleung.demo.user.UserDao;
-import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
-
-import static com.fahleung.demo.security.ApplicationUserRole.*;
 
 @Repository("fake")
 public class FakeApplicationUserDaoService implements UserDao {

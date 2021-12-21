@@ -34,7 +34,12 @@ public class UserService implements UserDetailsService {
     public BindingResult register(User user, BindingResult bindingResult) {
         Optional<User> userOptional = userRepository.findUserByEmail(user.getEmail());
         if (userOptional.isPresent()) {
-            bindingResult.rejectValue("email", "email.user", "Email already taken");
+            if (userOptional.get().getEmail().equals(user.getEmail())) {
+                bindingResult.rejectValue("email", "email.user", "Email already taken");
+            }
+            if (userOptional.get().getUsername().equals(user.getUsername())) {
+                bindingResult.rejectValue("username", "username.user", "Username already taken");
+            }
         }
         if (!(user.getPassword().equals(user.getConfirmPassword()))) {
             bindingResult.rejectValue("password", "password.user", "Passwords do not match");

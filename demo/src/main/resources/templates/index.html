@@ -2,6 +2,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- displays site properly based on user's device -->
+  <meta id="_csrf" name="_csrf" th:content="${_csrf.token}" />
+  <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}" />
 
   <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
   <link rel="stylesheet" href="dist/styles.css">
@@ -38,6 +40,13 @@
     </form>
   </div>
 
+  <div class="tabs">
+    <button th:each="tasklists: ${tasklists}" class="tablinks" onclick="openCity(event, '${tasklists.name}')"
+      th:text="${tasklists.name}"></button>
+    <button class="tablinks__add" onclick="">+</button>
+  </div>
+
+
   <ul id="list" class="list flex flex-d-col">
   </ul>
 
@@ -53,6 +62,7 @@
   </div>
   <h4 class="text-a-c">Drag and drop to reorder list</h4>
 
+  <!--<button id="send">test</button>-->
   <div class="attribution">
     Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>.
     Coded by <a href="#">Fabien AH-LEUNG</a>.
@@ -60,4 +70,8 @@
   <script src="app/js/variables.js"></script>
   <script src="app/js/functions.js"></script>
   <script src="app/js/scripts.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+  <script src="app/js/requests.js"></script>
+
 </body>
