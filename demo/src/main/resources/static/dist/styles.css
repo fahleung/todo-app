@@ -423,11 +423,10 @@ ul {
 
 .tabs {
   overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
 }
 
 .tabs button {
+  font-weight: 500;
   background-color: inherit;
   float: left;
   border: none;
@@ -438,18 +437,44 @@ ul {
   transition: 0.3s;
 }
 
-.tabs button:hover {
-  background-color: #ddd;
-}
-
-.tabs button.active {
-  background-color: #ccc;
-}
-
 .tabs__content {
   display: none;
   padding: 6px 12px;
   border: 1px solid #ccc;
   border-top: none;
+}
+
+.tabs.light {
+  border: 1px solid #f6f6f6;
+  background-color: #f6f6f6;
+}
+
+.tabs.light button {
+  color: #000;
+}
+
+.tabs.light button:hover {
+  background-color: #e1e1e1;
+}
+
+.tabs.light button.active {
+  background-color: #e1e1e1;
+}
+
+.tabs.dark {
+  border: 1px solid #243447;
+  background-color: #243447;
+}
+
+.tabs.dark button {
+  color: #f6f6f6;
+}
+
+.tabs.dark button:hover {
+  background-color: #141d26;
+}
+
+.tabs.dark button.active {
+  background-color: #141d26;
 }
 /*# sourceMappingURL=styles.css.map */

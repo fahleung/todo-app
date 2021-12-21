@@ -120,6 +120,8 @@ function switchTheme() {
         input.classList.add('dark');
         sidenav.classList.remove("light");
         sidenav.classList.add("dark");
+        tabs.classList.remove("light");
+        tabs.classList.add("dark");
         theme.src = sun_logo;
     }
     else {
@@ -131,6 +133,8 @@ function switchTheme() {
         input.classList.add('light');
         sidenav.classList.remove('dark');
         sidenav.classList.add('light');
+        tabs.classList.remove('dark');
+        tabs.classList.add('light');
         theme.src = moon_logo;
     }
 }

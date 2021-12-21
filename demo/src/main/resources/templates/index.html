@@ -40,10 +40,10 @@
     </form>
   </div>
 
-  <div class="tabs">
+  <div id="tabs" class="tabs light">
     <button th:each="tasklists: ${tasklists}" class="tablinks" onclick="openCity(event, '${tasklists.name}')"
       th:text="${tasklists.name}"></button>
-    <button class="tablinks__add" onclick="">+</button>
+    <button id="tablinks_add" class="tabslinks" onclick="">+</button>
   </div>
 
 

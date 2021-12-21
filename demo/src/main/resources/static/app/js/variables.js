@@ -7,6 +7,7 @@ const item_left = document.querySelector('#item_left');
 var item_number = 0;
 const theme = document.querySelector('#theme');
 const sidenav = document.querySelector("#sidenav");
+const tabs = document.querySelector("#tabs");
 var isLightTheme = true;
 
 const moon_logo = "../../images/icon-moon.svg";

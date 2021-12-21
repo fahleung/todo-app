@@ -1,7 +1,5 @@
 .tabs {
   overflow: hidden;
-  border: 1px solid #ccc;
-  background-color: #f1f1f1;
 }
 
 .tabs button {
@@ -15,18 +13,36 @@
   transition: 0.3s;
 }
 
-.tabs button:hover {
-  background-color: #ddd;
-}
-
-.tabs button.active {
-  background-color: #ccc;
-}
-
 .tabs__content {
   display: none;
   padding: 6px 12px;
   border: 1px solid #ccc;
   border-top: none;
+}
+
+.tabs.light {
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+.tabs.light button:hover {
+  background-color: #ddd;
+}
+
+.tabs.light button.active {
+  background-color: #ccc;
+}
+
+.tabs.black {
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+.tabs.black button:hover {
+  background-color: #ddd;
+}
+
+.tabs.black button.active {
+  background-color: #ccc;
 }
 /*# sourceMappingURL=tabs.css.map */

@@ -1,7 +1,5 @@
 .tabs{ //taken from w3school
     overflow: hidden;
-    border: 1px solid #ccc;
-    background-color: #f1f1f1;
     button{
         background-color: inherit;
         float: left;
@@ -11,19 +9,37 @@
         padding: 14px 16px;
         transition: 0.3s;
     }
-    button:hover {
-        background-color: #ddd;
-    }
-    button.active {
-        background-color: #ccc;
-    }
+
     &__content {
         display: none;
         padding: 6px 12px;
         border: 1px solid #ccc;
         border-top: none;
     }
-    &__add{
-        
+    &.light{
+        border: 1px solid $white;
+        background-color: $white;
+        button{
+            color: $black;
+        }
+        button:hover {
+            background-color: $white-2;
+        }
+        button.active {
+            background-color: $white-2;
+        }
+    }
+    &.dark{
+        border: 1px solid $dark;
+        background-color: $dark;
+        button{
+            color: $white;
+        }
+        button:hover {
+            background-color: $darker;
+        }
+        button.active {
+            background-color: $darker;
+        }
     }
 }
