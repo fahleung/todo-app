@@ -15,6 +15,7 @@
         padding: 6px 12px;
         border: 1px solid #ccc;
         border-top: none;
+        animation: fadeEffect 1s;
     }
     &.light{
         border: 1px solid $white;
@@ -43,3 +44,8 @@
         }
     }
 }
+/* Go from zero to full opacity */
+@keyframes fadeEffect {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }

@@ -426,7 +426,6 @@ ul {
 }
 
 .tabs button {
-  font-weight: 500;
   background-color: inherit;
   float: left;
   border: none;
@@ -442,6 +441,8 @@ ul {
   padding: 6px 12px;
   border: 1px solid #ccc;
   border-top: none;
+  -webkit-animation: fadeEffect 1s;
+          animation: fadeEffect 1s;
 }
 
 .tabs.light {
@@ -476,5 +477,23 @@ ul {
 
 .tabs.dark button.active {
   background-color: #141d26;
+}
+
+/* Go from zero to full opacity */
+@-webkit-keyframes fadeEffect {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes fadeEffect {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 /*# sourceMappingURL=styles.css.map */

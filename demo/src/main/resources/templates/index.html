@@ -41,14 +41,18 @@
   </div>
 
   <div id="tabs" class="tabs light">
-    <button th:each="tasklists: ${tasklists}" class="tablinks" onclick="openCity(event, '${tasklists.name}')"
-      th:text="${tasklists.name}"></button>
+    <button th:id="${tasklists.name}+_btn" th:each="tasklists: ${tasklists}" class="tablinks"
+      th:attr="onclick=|openTasklist(event, '${tasklists.name}')|" th:text="${tasklists.name}"></button>
     <button id="tablinks_add" class="tabslinks" onclick="">+</button>
   </div>
 
 
-  <ul id="list" class="list flex flex-d-col">
-  </ul>
+  <div th:id="${tasklists.name}" th:each="tasklists: ${tasklists}" class="tabs__content">
+    <p th:text="${tasklists.name}"></p>
+    <ul id="list" class="list flex flex-d-col">
+    </ul>
+  </div>
+
 
   <div class="action__option flex flex-jc-sa">
     <span id="item_left">0 items left</span>
