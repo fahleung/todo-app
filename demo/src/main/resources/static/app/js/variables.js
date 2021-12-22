@@ -16,3 +16,6 @@ const sun_logo = "../../images/icon-sun.svg";
 const all = document.querySelector('#all');
 const active = document.querySelector('#active');
 const completed = document.querySelector('#completed');
+
+//tasklists
+var selectedTasklist;

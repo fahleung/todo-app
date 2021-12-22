@@ -45,8 +45,6 @@ public class TasklistService {
     public List<Tasklist> getUserTasklists(Long user_id) {
         Optional<User> user = userRepository.findById(user_id);
         if (user.isPresent()) {
-            // TO DEBUG : gives only one task per tasklist while it is good in db
-            System.out.println(tasklistRepository.findTasklistByUserId(user_id).toArray().length);
             return tasklistRepository.findTasklistByUserId(user_id);
         }
         return null;

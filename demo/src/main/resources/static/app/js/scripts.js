@@ -1,8 +1,8 @@
 $(document).ready(function () {
-    tasklists.forEach(element => {
-        console.log(element.name);
-        //$("#"+element.name)
-    });
+    //open first tab by default
+    if (tasklists) {
+        $("#" + tasklists[0].name + "_btn").click();
+    }
 })
 
 var itemCounter = 1;
@@ -40,11 +40,20 @@ input.addEventListener('keypress', function (e) {
         let item_string = input.value;
         input.value = "";
 
-        itemCounter++;
-        list.appendChild(createItem(itemCounter, item_string));
-        addListListener(itemCounter);
-        item_number++;
-        updateItemsLeft(item_number);
+        let tasklistRow = getTasklistByName(selectedTasklist, tasklists);
+        if (tasklistRow) {
+            //add item to this tasklist with id x_y
+            itemCounter++;
+            list.appendChild(createItem(tasklistRow, item_string));
+            addListListener(tasklistRow);
+            item_number++;
+            updateItemsLeft(item_number);
+        }
+        else {
+            console.log("Creating item error");
+        }
+
+
     }
 });
 

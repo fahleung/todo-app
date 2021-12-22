@@ -1,5 +1,6 @@
 //create item
-function createItem(id, text) {
+function createItem(tasklistRow, text) {
+    console.log(tasklistRow);
     let li = document.createElement('li');
     let span = document.createElement('span');
     let check_img = document.createElement('img');
@@ -16,11 +17,11 @@ function createItem(id, text) {
     span.classList.add('flex-ai-c');
     span.classList.add('gap-1-10');
     //check img setup
-    check_img.id = "check_id_" + id;
+    check_img.id = "check_id_" + tasklistRow.tasklist.name + '_' + tasklistRow.tasklist.tasks.length;
     check_img.classList.add('border-white');
     check_img.src = check_img_url;
     //cross img setup
-    cross_img.id = "cross_id_" + id;
+    cross_img.id = "cross_id_" + tasklistRow.tasklist.name + '_' + tasklistRow.tasklist.tasks.length;
     cross_img.classList.add('cross');
     cross_img.src = cross_img_url;
     //p
@@ -32,57 +33,90 @@ function createItem(id, text) {
     li.appendChild(span);
     li.appendChild(cross_img);
 
+    //add task to tasklist
+    let task = {
+        name: 'task25',
+        time: null,
+        completed: false
+    };
+    tasklists[tasklistRow.index].tasks.push(task);
+
+    //TODO SAVE TO DB
+
     //li.addEventListener('ondragstart', onDragStart(event))
     return li;
 }
 
-function addListListener(id) {
-    let check = document.querySelector("#check_id_" + id);
-    let cross = document.querySelector("#cross_id_" + id);
+function getTasklistByName(name, tasklists) {
+    if (tasklists) {
+        let i = 0;
+        let tasklistFound = false;
+        let tasklistToReturn;
+        while (!tasklistFound && i <= tasklists.length) {
+            if (tasklists[i].name == name) {
+                tasklistFound = true;
+                tasklistToReturn = {
+                    tasklist: tasklists[i],
+                    index: i
+                }
+            }
+            else {
+                i++;
+            }
+        }
+        return tasklistToReturn;
+    }
+}
+
+function addListListener(tasklistRow) {
+    let index = tasklistRow.tasklist.tasks.length - 1;
+    let check = $("#check_id_" + tasklistRow.tasklist.name + '_' + index);
+    let cross = $("#cross_id_" + tasklistRow.tasklist.name + '_' + index);
+
     //check hover
-    check.addEventListener("mouseover", function () {
+    check.on("mouseover", function () {
         //console.log("over");
-        if (!check.classList.contains('check') && !check.classList.contains('border-colored')) {
-            check.classList.remove('border-white');
-            check.classList.add('border-colored');
+        if (!check.hasClass('check') && !check.hasClass('border-colored')) {
+            check.removeClass('border-white');
+            check.addClass('border-colored');
         }
     });
 
-    check.addEventListener("mouseout", function () {
+    check.on("mouseout", function () {
         //console.log("out");
-        if (!check.classList.contains('check') && check.classList.contains('border-colored')) {
-            check.classList.remove('border-colored');
-            check.classList.add('border-white');
+        if (!check.hasClass('check') && check.hasClass('border-colored')) {
+            check.removeClass('border-colored');
+            check.addClass('border-white');
         }
     });
 
-    check.addEventListener("click", function () {
+    check.on("click", function () {
         //console.log("click");
-        if (!check.classList.contains('check')) {
-            check.classList.remove('border-colored');
-            check.classList.remove('border-white');
-            check.classList.add('check');
-            check.nextSibling.classList.add('line');
+        if (!check.hasClass('check')) {
+            check.removeClass('border-colored');
+            check.removeClass('border-white');
+            check.addClass('check');
+            check.next().addClass('line');
             item_number--;
         }
         else {
-            check.classList.remove('border-colored');
-            check.classList.add('border-white');
-            check.classList.remove('check');
-            check.nextSibling.classList.remove('line');
+            check.removeClass('border-colored');
+            check.addClass('border-white');
+            check.removeClass('check');
+            check.next().removeClass('line');
             item_number++;
         }
         updateItemsLeft(item_number);
     });
 
     //item
-    cross.addEventListener("click", function () {
+    cross.on("click", function () {
         //console.log("cross click");
-        if (!check.classList.contains('check')) {
+        if (!check.hasClass('check')) {
             item_number--;
             updateItemsLeft(item_number);
         }
-        cross.parentElement.remove();
+        cross.parent().remove();
 
     });
 }
@@ -181,6 +215,7 @@ function showAll() {
 
 function openTasklist(evt, tasklistName) {
     var i, tabcontent, tablinks;
+    selectedTasklist = tasklistName;
 
     tabcontent = document.getElementsByClassName("tabs__content");
     for (i = 0; i < tabcontent.length; i++) {
@@ -193,5 +228,5 @@ function openTasklist(evt, tasklistName) {
     }
 
     document.getElementById(tasklistName).style.display = "block";
-    evt.currentTarget.className += " active";
+    evt.target.className += " active";
 }
