@@ -1,4 +1,3 @@
-const list = document.querySelector("#list");
 const input = document.querySelector("#add_todo");
 const cross_img_url = "../../images/icon-cross.svg";
 const check_img_url = "../../images/icon-check.svg";

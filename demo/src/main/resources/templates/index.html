@@ -48,7 +48,7 @@
 
 
   <div th:id="${tasklists.name}" th:each="tasklists: ${tasklists}" class="tabs__content">
-    <ul id="list" class="list flex flex-d-col">
+    <ul th:id="${tasklists.name}+_list" class="list flex flex-d-col">
       <li class="flex flex-jc-sb flex-ai-c" draggable="true" th:each="tasks,taskIndex : ${tasklists.tasks}">
         <span class="flex flex-ai-c gap-1-10">
           <img th:id="check_id_+${tasklists.name + '_' + taskIndex.index}" class="border-white"

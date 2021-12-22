@@ -44,7 +44,7 @@ input.addEventListener('keypress', function (e) {
         if (tasklistRow) {
             //add item to this tasklist with id x_y
             itemCounter++;
-            list.appendChild(createItem(tasklistRow, item_string));
+            $("#" + selectedTasklist + "_list").append(createItem(tasklistRow, item_string));
             addListListener(tasklistRow);
             item_number++;
             updateItemsLeft(item_number);
