@@ -1,3 +1,10 @@
+$(document).ready(function () {
+    tasklists.forEach(element => {
+        console.log(element.name);
+        //$("#"+element.name)
+    });
+})
+
 var itemCounter = 1;
 var typing;
 //input

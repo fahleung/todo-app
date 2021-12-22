@@ -182,8 +182,6 @@ function showAll() {
 function openTasklist(evt, tasklistName) {
     var i, tabcontent, tablinks;
 
-    console.log("tasklist name " + tasklistName);
-
     tabcontent = document.getElementsByClassName("tabs__content");
     for (i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";

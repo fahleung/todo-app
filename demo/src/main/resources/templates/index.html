@@ -47,8 +47,16 @@
   </div>
 
 
-  <div th:id="${tasklists.name}" th:each="tasklists: ${tasklists}" class="tabs__content">
+  <div th:id="${tasklists.name}" th:each="tasklists,tasklistIndex : ${tasklists}" class="tabs__content">
     <ul id="list" class="list flex flex-d-col">
+      <li class="flex flex-jc-sb flex-ai-c" draggable="true" th:each="tasks,taskIndex : ${tasklists.tasks}">
+        <span class="flex flex-ai-c gap-1-10">
+          <img th:id="check_id_+${tasklistIndex.index + '_' + taskIndex.index}" class="border-white"
+            src="../../images/icon-check.svg">
+          <p th:text="${tasks.name}"></p>
+        </span>
+        <img id="cross_id_2" class="cross" src="../../images/icon-cross.svg">
+      </li>
     </ul>
   </div>
 
@@ -72,12 +80,13 @@
   </div>
   <script th:inline="javascript">
     var tasklists = /*[[${tasklists}]]*/[];
+    console.log(tasklists);
   </script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   <script src="app/js/variables.js"></script>
   <script src="app/js/functions.js"></script>
   <script src="app/js/scripts.js"></script>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
   <script src="app/js/requests.js"></script>
 
 </body>
