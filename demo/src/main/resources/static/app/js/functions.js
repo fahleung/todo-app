@@ -68,10 +68,10 @@ function getTasklistByName(name, tasklists) {
     }
 }
 
-function addListListener(tasklistRow) {
-    let index = tasklistRow.tasklist.tasks.length - 1;
-    let check = $("#check_id_" + tasklistRow.tasklist.name + '_' + index);
-    let cross = $("#cross_id_" + tasklistRow.tasklist.name + '_' + index);
+function addListListener(check, cross, index) {
+    /*let index = tasklist.tasks.length - 1;
+    let check = $("#check_id_" + tasklist.name + '_' + index);
+    let cross = $("#cross_id_" + tasklist.name + '_' + index);*/
 
     //check hover
     check.on("mouseover", function () {

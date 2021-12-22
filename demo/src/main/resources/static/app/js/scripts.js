@@ -1,4 +1,14 @@
 $(document).ready(function () {
+    //init listeners for each task
+    tasklists.forEach(tasklist => {
+        tasklist.tasks.forEach(function (task, i) {
+            let index = i;
+            let check = $("#check_id_" + tasklist.name + '_' + index);
+            let cross = $("#cross_id_" + tasklist.name + '_' + index);
+            addListListener(check, cross, index);
+        });
+    });
+
     //open first tab by default
     if (tasklists) {
         $("#" + tasklists[0].name + "_btn").click();
@@ -45,7 +55,10 @@ input.addEventListener('keypress', function (e) {
             //add item to this tasklist with id x_y
             itemCounter++;
             $("#" + selectedTasklist + "_list").append(createItem(tasklistRow, item_string));
-            addListListener(tasklistRow);
+            let index = tasklistRow.tasklist.tasks.length - 1;
+            let check = $("#check_id_" + tasklistRow.tasklist.name + '_' + index);
+            let cross = $("#cross_id_" + tasklistRow.tasklist.name + '_' + index);
+            addListListener(check, cross, index);
             item_number++;
             updateItemsLeft(item_number);
         }
