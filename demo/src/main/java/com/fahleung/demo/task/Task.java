@@ -16,6 +16,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "tasks")
 public class Task {
@@ -24,10 +26,9 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "task_sequence")
     private Long task_id;
     @ManyToOne(targetEntity = Tasklist.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "tasklist_id", insertable = false, updatable = false)
+    @JoinColumn(name = "tasklist_id")
+    @JsonBackReference
     private Tasklist tasklist;
-    @Column(name = "tasklist_id")
-    private Long tasklist_id;
     @NotBlank
     private String name;
     @NotNull
@@ -38,13 +39,6 @@ public class Task {
     }
 
     public Task(String name, Timestamp time, boolean completed) {
-        this.name = name;
-        this.time = time;
-        this.completed = completed;
-    }
-
-    public Task(Long tasklist_id, String name, Timestamp time, boolean completed) {
-        this.tasklist_id = tasklist_id;
         this.name = name;
         this.time = time;
         this.completed = completed;
