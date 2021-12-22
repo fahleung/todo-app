@@ -18,6 +18,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 import com.fahleung.demo.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "tasklists")
@@ -26,14 +28,14 @@ public class Tasklist {
     @SequenceGenerator(name = "tasklist_sequence", sequenceName = "tasklist_sequence", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tasklist_sequence")
     private Long tasklist_id;
-    @OneToMany(targetEntity = Task.class, mappedBy = "task_id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(targetEntity = Task.class, mappedBy = "tasklist", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @Nullable
+    @JsonManagedReference
     private Set<Task> tasks;
     @ManyToOne(targetEntity = User.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
-    @Column(name = "user_id")
-    private Long user_id;
     @NotBlank
     private String name;
 
@@ -47,11 +49,6 @@ public class Tasklist {
     }
 
     public Tasklist(String name) {
-        this.name = name;
-    }
-
-    public Tasklist(Long user_id, String name) {
-        this.user_id = user_id;
         this.name = name;
     }
 

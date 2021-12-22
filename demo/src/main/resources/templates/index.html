@@ -48,7 +48,6 @@
 
 
   <div th:id="${tasklists.name}" th:each="tasklists: ${tasklists}" class="tabs__content">
-    <p th:text="${tasklists.name}"></p>
     <ul id="list" class="list flex flex-d-col">
     </ul>
   </div>
@@ -71,6 +70,9 @@
     Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>.
     Coded by <a href="#">Fabien AH-LEUNG</a>.
   </div>
+  <script th:inline="javascript">
+    var tasklists = /*[[${tasklists}]]*/[];
+  </script>
   <script src="app/js/variables.js"></script>
   <script src="app/js/functions.js"></script>
   <script src="app/js/scripts.js"></script>

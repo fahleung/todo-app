@@ -1,11 +1,10 @@
 package com.fahleung.demo.controller;
 
-import java.security.Principal;
-
 import com.fahleung.demo.task.TasklistService;
 import com.fahleung.demo.user.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,9 +31,9 @@ public class TemplateController {
     }
 
     @GetMapping("index")
-    public ModelAndView getIndex(Principal principal) {
+    public ModelAndView getIndex(@AuthenticationPrincipal User user) {
         ModelAndView modelAndView = new ModelAndView("index");
-        modelAndView.addObject("tasklists", tasklistService.getUserTasklists(principal.getName()));
+        modelAndView.addObject("tasklists", tasklistService.getUserTasklists(user.getId()));
         return modelAndView;
     }
 }

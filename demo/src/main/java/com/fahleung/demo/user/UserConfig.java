@@ -1,11 +1,8 @@
 package com.fahleung.demo.user;
 
 import java.sql.*;
-import java.sql.Time;
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import com.fahleung.demo.task.Task;
@@ -36,20 +33,32 @@ public class UserConfig {
             // CREATE USER
             User fabien = new User("fabien", passwordEncoder.encode("azerty123"), passwordEncoder.encode("azerty123"),
                     "fabien@gmail.com");
+            repository.save(fabien);
             // CREATE TASKLISTS
-            Tasklist tasklist1 = new Tasklist((long) 1, "tasklist1");
-            Tasklist tasklist2 = new Tasklist((long) 1, "tasklist2");
-            Tasklist tasklist3 = new Tasklist((long) 1, "tasklist3");
+            Tasklist tasklist1 = new Tasklist("tasklist1");
+            Tasklist tasklist2 = new Tasklist("tasklist2");
+            Tasklist tasklist3 = new Tasklist("tasklist3");
+            tasklist1.setUser(fabien);
+            tasklist2.setUser(fabien);
+            tasklist3.setUser(fabien);
             Set<Tasklist> set = new HashSet<Tasklist>();
             // CREATE TASKS
             Timestamp stamp = new Timestamp(System.currentTimeMillis());
-            Task task1 = new Task((long) 1, "task1", stamp, false);
-            Task task2 = new Task((long) 1, "task2", stamp, false);
-            Task task3 = new Task((long) 1, "task3", stamp, false);
-            Task task4 = new Task((long) 1, "task4", stamp, false);
-            Task task5 = new Task((long) 1, "task5", stamp, false);
-            Task task6 = new Task((long) 1, "task6", stamp, false);
-            Task task7 = new Task((long) 1, "task7", stamp, false);
+            Task task1 = new Task("task1", stamp, false);
+            Task task2 = new Task("task2", stamp, false);
+            Task task3 = new Task("task3", stamp, false);
+            Task task4 = new Task("task4", stamp, false);
+            Task task5 = new Task("task5", stamp, false);
+            Task task6 = new Task("task6", stamp, false);
+            Task task7 = new Task("task7", stamp, false);
+            task1.setTasklist(tasklist1);
+            task2.setTasklist(tasklist1);
+            task3.setTasklist(tasklist2);
+            task4.setTasklist(tasklist2);
+            task5.setTasklist(tasklist2);
+            task6.setTasklist(tasklist3);
+            task7.setTasklist(tasklist3);
+
             Set<Task> set1 = new HashSet<Task>();
             Set<Task> set2 = new HashSet<Task>();
             Set<Task> set3 = new HashSet<Task>();

@@ -2,7 +2,6 @@ package com.fahleung.demo.task;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import com.fahleung.demo.user.User;
 import com.fahleung.demo.user.UserRepository;
@@ -43,10 +42,12 @@ public class TasklistService {
         return new ResponseEntity<>("Problem occured", HttpStatus.BAD_REQUEST);
     }
 
-    public List<Tasklist> getUserTasklists(String name) {
-        Optional<User> user = userRepository.findUserByName(name);
+    public List<Tasklist> getUserTasklists(Long user_id) {
+        Optional<User> user = userRepository.findById(user_id);
         if (user.isPresent()) {
-            return tasklistRepository.findTasklistByUsername(name);
+            // TO DEBUG : gives only one task per tasklist while it is good in db
+            System.out.println(tasklistRepository.findTasklistByUserId(user_id).toArray().length);
+            return tasklistRepository.findTasklistByUserId(user_id);
         }
         return null;
     }

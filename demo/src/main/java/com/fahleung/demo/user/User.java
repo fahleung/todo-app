@@ -22,6 +22,7 @@ import javax.validation.constraints.Size;
 
 import com.fahleung.demo.security.ApplicationUserRole;
 import com.fahleung.demo.task.Tasklist;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -54,7 +55,8 @@ public class User implements UserDetails {
     private boolean isCredentialsNonExpired = true;
     private boolean isEnabled = true;
 
-    @OneToMany(targetEntity = Tasklist.class, mappedBy = "tasklist_id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    @OneToMany(targetEntity = Tasklist.class, mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Tasklist> tasklists;
 
     public User() {
