@@ -22,7 +22,6 @@ $(document).ready(function () {
     }
 })
 
-var itemCounter = 1;
 var typing;
 //input
 input.addEventListener("focusin", function () {
@@ -57,7 +56,6 @@ input.addEventListener('keypress', function (e) {
         let tasklistRow = getTasklistByName(selectedTasklist, tasklists);
         if (tasklistRow) {
             //add item to this tasklist with id x_y
-            itemCounter++;
             $("#" + selectedTasklist + "_list").append(createItem(tasklistRow, item_string));
             let taskIndex = tasklistRow.tasklist.tasks.length - 1;
             let check = $("#check_id_" + tasklistRow.tasklist.name + '_' + taskIndex);
@@ -74,7 +72,7 @@ input.addEventListener('keypress', function (e) {
 });
 
 clear_completed.addEventListener("click", function () {
-    clearCompleted(itemCounter);
+    clearCompleted();
 });
 
 theme.addEventListener('click', function () {

@@ -109,15 +109,17 @@ function addListListener(tasklistRow, check, cross, taskIndex) {
 }
 
 //clear items checked
-function clearCompleted(itemCounter) {
-    console.log(itemCounter);
-    for (let i = 1; i <= itemCounter; i++) {
-        let check = document.querySelector("#check_id_" + i);
-        let cross = document.querySelector("#cross_id_" + i);
-        if (check != null && check.classList.contains('check')) {
-            cross.parentElement.remove();
+function clearCompleted() {
+    let tasklistRow = getTasklistByName(selectedTasklist, tasklists);
+    tasklistRow.tasklist.tasks.forEach(function (e, i) {
+        let check = $("#check_id_" + tasklistRow.tasklist.name + '_' + i);
+        let cross = $("#cross_id_" + tasklistRow.tasklist.name + '_' + i);
+        if (check != null && check.hasClass('check')) {
+            cross.parent().remove();
         }
-    }
+        tasklists = deleteTask(tasklists, tasklistRow.index, i);
+        updateItemsLeft(tasklistRow.tasklist.tasks.length);
+    });
 }
 
 //function update items left number
