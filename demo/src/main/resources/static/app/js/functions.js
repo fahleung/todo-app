@@ -170,34 +170,34 @@ function onDragStart(event) {
 //filters
 function showCompleted() {
     showAll();
-    console.log(itemCounter);
-    for (let i = 1; i <= itemCounter; i++) {
-        let check = document.querySelector("#check_id_" + i);
-        if (check != null && !check.classList.contains('check')) {
-            check.parentElement.parentElement.classList.add('invisible');
+    let tasklistRow = getTasklistByName(selectedTasklist, tasklists);
+    tasklistRow.tasklist.tasks.forEach(function (e, i) {
+        let check = $("#check_id_" + tasklistRow.tasklist.name + '_' + i);
+        if (check != null && !check.hasClass('check')) {
+            check.parent().parent().addClass('invisible');
         }
-    }
+    });
 }
 
 function showActive() {
     showAll();
-    console.log(itemCounter);
-    for (let i = 1; i <= itemCounter; i++) {
-        let check = document.querySelector("#check_id_" + i);
-        if (check != null && check.classList.contains('check')) {
-            check.parentElement.parentElement.classList.add('invisible');
+    let tasklistRow = getTasklistByName(selectedTasklist, tasklists);
+    tasklistRow.tasklist.tasks.forEach(function (e, i) {
+        let check = $("#check_id_" + tasklistRow.tasklist.name + '_' + i);
+        if (check != null && check.hasClass('check')) {
+            check.parent().parent().addClass('invisible');
         }
-    }
+    });
 }
 
 function showAll() {
-    console.log(itemCounter);
-    for (let i = 1; i <= itemCounter; i++) {
-        let check = document.querySelector("#check_id_" + i);
+    let tasklistRow = getTasklistByName(selectedTasklist, tasklists);
+    tasklistRow.tasklist.tasks.forEach(function (e, i) {
+        let check = $("#check_id_" + tasklistRow.tasklist.name + '_' + i);
         if (check != null) {
-            check.parentElement.parentElement.classList.remove('invisible');
+            check.parent().parent().removeClass('invisible');
         }
-    }
+    });
 }
 
 function openTasklist(evt, tasklistName) {
