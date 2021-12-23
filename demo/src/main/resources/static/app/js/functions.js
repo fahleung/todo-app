@@ -1,6 +1,5 @@
 //create item
-function createItem(tasklistRow, text) {
-    console.log(tasklistRow);
+function createItem(tasklistRow, taskName) {
     let li = document.createElement('li');
     let span = document.createElement('span');
     let check_img = document.createElement('img');
@@ -25,24 +24,16 @@ function createItem(tasklistRow, text) {
     cross_img.classList.add('cross');
     cross_img.src = cross_img_url;
     //p
-    p.innerHTML = text.charAt(0).toUpperCase() + text.slice(1);
+    p.innerHTML = taskName.charAt(0).toUpperCase() + taskName.slice(1);
 
     span.appendChild(check_img);
     span.appendChild(p);
-    //span.innerHTML = span.innerHTML + text.charAt(0).toUpperCase() + text.slice(1);
+
     li.appendChild(span);
     li.appendChild(cross_img);
 
-    //add task to tasklist
-    let task = {
-        name: 'task25',
-        time: null,
-        completed: false
-    };
-    tasklists[tasklistRow.index].tasks.push(task);
-
-    //TODO SAVE TO DB
-
+    //save
+    tasklists = addTask(tasklists, tasklistRow.index, taskName);
     //li.addEventListener('ondragstart', onDragStart(event))
     return li;
 }
@@ -68,14 +59,10 @@ function getTasklistByName(name, tasklists) {
     }
 }
 
-function addListListener(check, cross, index) {
-    /*let index = tasklist.tasks.length - 1;
-    let check = $("#check_id_" + tasklist.name + '_' + index);
-    let cross = $("#cross_id_" + tasklist.name + '_' + index);*/
+function addListListener(tasklistRow, check, cross, taskIndex) {
 
     //check hover
     check.on("mouseover", function () {
-        //console.log("over");
         if (!check.hasClass('check') && !check.hasClass('border-colored')) {
             check.removeClass('border-white');
             check.addClass('border-colored');
@@ -83,7 +70,6 @@ function addListListener(check, cross, index) {
     });
 
     check.on("mouseout", function () {
-        //console.log("out");
         if (!check.hasClass('check') && check.hasClass('border-colored')) {
             check.removeClass('border-colored');
             check.addClass('border-white');
@@ -91,33 +77,34 @@ function addListListener(check, cross, index) {
     });
 
     check.on("click", function () {
-        //console.log("click");
+        let isCompleted;
         if (!check.hasClass('check')) {
             check.removeClass('border-colored');
             check.removeClass('border-white');
             check.addClass('check');
             check.next().addClass('line');
-            item_number--;
+            isCompleted = true;
         }
         else {
             check.removeClass('border-colored');
             check.addClass('border-white');
             check.removeClass('check');
             check.next().removeClass('line');
-            item_number++;
+            isCompleted = false;
         }
-        updateItemsLeft(item_number);
+        //complete
+        tasklists = completeTask(tasklists, tasklistRow.index, taskIndex, isCompleted);
+        updateItemsLeft(tasklistRow.tasklist.tasks.length);
     });
 
     //item
     cross.on("click", function () {
-        //console.log("cross click");
         if (!check.hasClass('check')) {
-            item_number--;
-            updateItemsLeft(item_number);
+            //delete
+            tasklists = deleteTask(tasklists, tasklistRow.index, taskIndex);
+            updateItemsLeft(tasklistRow.tasklist.tasks.length);
         }
         cross.parent().remove();
-
     });
 }
 
@@ -135,7 +122,7 @@ function clearCompleted(itemCounter) {
 
 //function update items left number
 function updateItemsLeft(number) {
-    item_left.innerHTML = item_number + " items left";
+    item_left.innerHTML = number + " items";
 }
 
 //change light theme <=> dark theme
@@ -216,6 +203,7 @@ function showAll() {
 function openTasklist(evt, tasklistName) {
     var i, tabcontent, tablinks;
     selectedTasklist = tasklistName;
+    updateItemsLeft(getTasklistByName(selectedTasklist, tasklists).tasklist.tasks.length);
 
     tabcontent = document.getElementsByClassName("tabs__content");
     for (i = 0; i < tabcontent.length; i++) {
@@ -229,4 +217,5 @@ function openTasklist(evt, tasklistName) {
 
     document.getElementById(tasklistName).style.display = "block";
     evt.target.className += " active";
+
 }

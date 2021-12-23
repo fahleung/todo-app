@@ -45,7 +45,7 @@ public class UserConfig {
             // CREATE TASKS
             Timestamp stamp = new Timestamp(System.currentTimeMillis());
             Task task1 = new Task("task1", stamp, false);
-            Task task2 = new Task("task2", stamp, false);
+            Task task2 = new Task("task2", stamp, true);
             Task task3 = new Task("task3", stamp, false);
             Task task4 = new Task("task4", stamp, false);
             Task task5 = new Task("task5", stamp, false);

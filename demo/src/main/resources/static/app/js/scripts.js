@@ -1,11 +1,18 @@
 $(document).ready(function () {
     //init listeners for each task
-    tasklists.forEach(tasklist => {
-        tasklist.tasks.forEach(function (task, i) {
-            let index = i;
-            let check = $("#check_id_" + tasklist.name + '_' + index);
-            let cross = $("#cross_id_" + tasklist.name + '_' + index);
-            addListListener(check, cross, index);
+    tasklists.forEach(function (tasklist, tasklistIndex) {
+        tasklist.tasks.forEach(function (task, taskIndex) {
+            let check = $("#check_id_" + tasklist.name + '_' + taskIndex);
+            let cross = $("#cross_id_" + tasklist.name + '_' + taskIndex);
+            tasklistRow = {
+                tasklist: tasklist,
+                index: tasklistIndex
+            }
+            addListListener(tasklistRow, check, cross, taskIndex);
+            updateItemsLeft(tasklist.tasks.length - 1);
+            if (task.completed) {
+                check.click();
+            }
         });
     });
 
@@ -33,9 +40,6 @@ input.addEventListener("focusin", function () {
         }
         input.placeholder = placeholdertoshow;
     }
-
-    //input.placeholder = 'Currently typing...';
-
 });
 
 input.addEventListener("focusout", function () {
@@ -55,12 +59,11 @@ input.addEventListener('keypress', function (e) {
             //add item to this tasklist with id x_y
             itemCounter++;
             $("#" + selectedTasklist + "_list").append(createItem(tasklistRow, item_string));
-            let index = tasklistRow.tasklist.tasks.length - 1;
-            let check = $("#check_id_" + tasklistRow.tasklist.name + '_' + index);
-            let cross = $("#cross_id_" + tasklistRow.tasklist.name + '_' + index);
-            addListListener(check, cross, index);
-            item_number++;
-            updateItemsLeft(item_number);
+            let taskIndex = tasklistRow.tasklist.tasks.length - 1;
+            let check = $("#check_id_" + tasklistRow.tasklist.name + '_' + taskIndex);
+            let cross = $("#cross_id_" + tasklistRow.tasklist.name + '_' + taskIndex);
+            addListListener(tasklistRow, check, cross, taskIndex);
+            updateItemsLeft(tasklistRow.tasklist.tasks.length);
         }
         else {
             console.log("Creating item error");

@@ -23,3 +23,35 @@ $("#send").click(function (e) {
         });
 
 });
+
+//add task
+function addTask(tasklists, tasklistIndex, taskName) {
+    //request
+
+    //on success
+    let task = {
+        name: taskName,
+        time: null,
+        completed: false
+    };
+    tasklists[tasklistIndex].tasks.push(task);
+    console.log(tasklists);
+    return tasklists;
+}
+
+
+//delete task
+function deleteTask(tasklists, tasklistIndex, taskIndex) {
+    //request
+    //on success
+    tasklists[tasklistIndex].tasks.splice(taskIndex, 1);
+    return tasklists;
+}
+
+//complete task
+function completeTask(tasklists, tasklistIndex, taskIndex, isCompleted) {
+    //request
+    //on success
+    tasklists[tasklistIndex].tasks[taskIndex].completed = isCompleted;
+    return tasklists;
+}

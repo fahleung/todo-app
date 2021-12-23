@@ -3,7 +3,6 @@ const cross_img_url = "../../images/icon-cross.svg";
 const check_img_url = "../../images/icon-check.svg";
 const clear_completed = document.querySelector('#clear_completed');
 const item_left = document.querySelector('#item_left');
-var item_number = 0;
 const theme = document.querySelector('#theme');
 const sidenav = document.querySelector("#sidenav");
 const tabs = document.querySelector("#tabs");
