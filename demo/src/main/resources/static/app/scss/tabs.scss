@@ -16,17 +16,23 @@
         border-top: none;
         animation: fadeEffect 1s;
     }
+    input{
+        border-radius: 1rem;
+        padding: 6px 12px;
+        margin: 0.3rem;
+        animation: fadeEffect 1s;
+    }
     &.light{
         border: 1px solid $white;
         background-color: $white;
         button{
             color: $black;
         }
-        button:hover {
+        button:hover, button.active{
             background-color: $white-2;
         }
-        button.active {
-            background-color: $white-2;
+        input{
+            border: 1px solid $black;
         }
     }
     &.dark{
@@ -35,10 +41,7 @@
         button{
             color: $white;
         }
-        button:hover {
-            background-color: $darker;
-        }
-        button.active {
+        button:hover, button.active {
             background-color: $darker;
         }
     }

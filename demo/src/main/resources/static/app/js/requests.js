@@ -55,3 +55,15 @@ function completeTask(tasklists, tasklistIndex, taskIndex, isCompleted) {
     tasklists[tasklistIndex].tasks[taskIndex].completed = isCompleted;
     return tasklists;
 }
+
+//add tasklist
+function addTasklist(tasklists, tasklistName) {
+    //request
+    //on success
+    newTasklist = {
+        tasks: [],
+        name: tasklistName
+    };
+    tasklists.push(newTasklist);
+    return tasklists;
+}

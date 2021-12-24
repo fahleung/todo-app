@@ -1,5 +1,5 @@
 //create item
-function createItem(tasklistRow, taskName) {
+function createTask(tasklistRow, taskName) {
     let li = document.createElement('li');
     let span = document.createElement('span');
     let check_img = document.createElement('img');
@@ -32,10 +32,46 @@ function createItem(tasklistRow, taskName) {
     li.appendChild(span);
     li.appendChild(cross_img);
 
-    //save
+    //save task
     tasklists = addTask(tasklists, tasklistRow.index, taskName);
     //li.addEventListener('ondragstart', onDragStart(event))
     return li;
+}
+
+function createTasklist(tasklistName) {
+
+    let button = document.createElement('button');
+    let div = document.createElement('div');
+    let ul = document.createElement('ul');
+
+    //button tab setup
+    button.id = tasklistName + "_btn";
+    button.classList.add("tablinks");
+    button.innerHTML = tasklistName;
+
+    //div setup
+    div.id = tasklistName;
+    div.classList.add("tabs__content");
+    div.style.display = "none";
+
+    //ul setup
+    ul.id = tasklistName + "_list";
+    ul.classList.add('list');
+    ul.classList.add('flex');
+    ul.classList.add('flex-d-col');
+
+    div.appendChild(ul);
+
+    //save tasklist
+    //create tasklist
+    tasklists = addTasklist(tasklists, tasklistName);
+
+    let htmlElements = {
+        button: button,
+        div: div
+    }
+
+    return htmlElements;
 }
 
 function getTasklistByName(name, tasklists) {
@@ -139,8 +175,8 @@ function switchTheme() {
         body.classList.add('dark');
         header.classList.remove('light');
         header.classList.add('dark');
-        input.classList.remove('light');
-        input.classList.add('dark');
+        add_todo.classList.remove('light');
+        add_todo.classList.add('dark');
         sidenav.classList.remove("light");
         sidenav.classList.add("dark");
         tabs.classList.remove("light");
@@ -152,8 +188,8 @@ function switchTheme() {
         body.classList.add('light');
         header.classList.remove('dark');
         header.classList.add('light');
-        input.classList.remove('dark');
-        input.classList.add('light');
+        add_todo.classList.remove('dark');
+        add_todo.classList.add('light');
         sidenav.classList.remove('dark');
         sidenav.classList.add('light');
         tabs.classList.remove('dark');

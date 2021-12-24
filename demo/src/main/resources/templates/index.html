@@ -44,6 +44,7 @@
     <button th:id="${tasklists.name}+_btn" th:each="tasklists: ${tasklists}" class="tablinks"
       th:attr="onclick=|openTasklist(event, '${tasklists.name}')|" th:text="${tasklists.name}"></button>
     <button id="tablinks_add" class="tabslinks" onclick="">+</button>
+    <input id="add_tasklist" type="text" placeholder="Create a tasklist" class="display-none">
   </div>
 
 

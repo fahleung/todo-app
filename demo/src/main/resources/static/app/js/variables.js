@@ -1,4 +1,5 @@
-const input = document.querySelector("#add_todo");
+const add_todo = document.querySelector("#add_todo");
+const add_tasklist = $("#add_tasklist");
 const cross_img_url = "../../images/icon-cross.svg";
 const check_img_url = "../../images/icon-check.svg";
 const clear_completed = document.querySelector('#clear_completed');

@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    console.log(tasklists);
     //init listeners for each task
     tasklists.forEach(function (tasklist, tasklistIndex) {
         tasklist.tasks.forEach(function (task, taskIndex) {
@@ -24,7 +25,7 @@ $(document).ready(function () {
 
 var typing;
 //input
-input.addEventListener("focusin", function () {
+add_todo.addEventListener("focusin", function () {
     typing = setInterval(typingTimer, 300);
     let dots = 0;
     let placeholder = 'Currently typing';
@@ -37,26 +38,25 @@ input.addEventListener("focusin", function () {
         if (dots == 3) {
             dots = 0;
         }
-        input.placeholder = placeholdertoshow;
+        add_todo.placeholder = placeholdertoshow;
     }
 });
 
-input.addEventListener("focusout", function () {
+add_todo.addEventListener("focusout", function () {
     clearInterval(typing);
-    input.placeholder = 'Create a new todo...';
+    add_todo.placeholder = 'Create a new todo...';
 });
 
-input.addEventListener('keypress', function (e) {
+add_todo.addEventListener('keypress', function (e) {
     //create new item
-    if (e.key === 'Enter' && input.value != "") {
-        console.log("new item " + input.value);
-        let item_string = input.value;
-        input.value = "";
+    if (e.key === 'Enter' && add_todo.value != "") {
+        let item_string = add_todo.value;
+        add_todo.value = "";
 
         let tasklistRow = getTasklistByName(selectedTasklist, tasklists);
         if (tasklistRow) {
             //add item to this tasklist with id x_y
-            $("#" + selectedTasklist + "_list").append(createItem(tasklistRow, item_string));
+            $("#" + selectedTasklist + "_list").append(createTask(tasklistRow, item_string));
             let taskIndex = tasklistRow.tasklist.tasks.length - 1;
             let check = $("#check_id_" + tasklistRow.tasklist.name + '_' + taskIndex);
             let cross = $("#cross_id_" + tasklistRow.tasklist.name + '_' + taskIndex);
@@ -66,8 +66,6 @@ input.addEventListener('keypress', function (e) {
         else {
             console.log("Creating item error");
         }
-
-
     }
 });
 
@@ -98,6 +96,39 @@ completed.addEventListener("click", function () {
     active.classList.remove("active");
     completed.classList.add("active");
     showCompleted()
+});
+
+$("#tablinks_add").on('click', function (e) {
+    if ($("#add_tasklist").hasClass("display-block")) {
+        $("#add_tasklist").removeClass("display-block");
+        $("#add_tasklist").addClass("display-none");
+    }
+    else {
+        $("#add_tasklist").removeClass("display-none");
+        $("#add_tasklist").addClass("display-block");
+    }
+});
+
+add_tasklist.on('keypress', function (e) {
+    if (e.key === 'Enter' && add_tasklist.val() != "") {
+        let item_string = add_tasklist.val();
+        add_tasklist.val("");
+
+        //if tasklists array already exist
+        if (tasklists) {
+            //get last tasklist name btn to append to
+            let lastTasklistName = tasklists[tasklists.length - 1].name;
+            htmlElements = createTasklist(item_string);
+            $("#" + lastTasklistName + "_btn").after(htmlElements.button);
+            $("#" + lastTasklistName).after(htmlElements.div);
+            $("#" + item_string + "_btn").on('click', function (e) {
+                openTasklist(e, item_string);
+            });
+        }
+        else {
+            //no tasklists array, create one
+        }
+    }
 });
 
 /* Set the width of the side navigation to 250px */

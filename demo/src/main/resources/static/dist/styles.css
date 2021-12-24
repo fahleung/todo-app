@@ -155,6 +155,10 @@ ul {
   display: none;
 }
 
+.display-block {
+  display: block;
+}
+
 .arrow {
   border: solid #f6f6f6;
   border-width: 0 3px 3px 0;
@@ -444,6 +448,14 @@ ul {
           animation: fadeEffect 1s;
 }
 
+.tabs input {
+  border-radius: 1rem;
+  padding: 6px 12px;
+  margin: 0.3rem;
+  -webkit-animation: fadeEffect 1s;
+          animation: fadeEffect 1s;
+}
+
 .tabs.light {
   border: 1px solid #f6f6f6;
   background-color: #f6f6f6;
@@ -453,12 +465,12 @@ ul {
   color: #000;
 }
 
-.tabs.light button:hover {
+.tabs.light button:hover, .tabs.light button.active {
   background-color: #e1e1e1;
 }
 
-.tabs.light button.active {
-  background-color: #e1e1e1;
+.tabs.light input {
+  border: 1px solid #000;
 }
 
 .tabs.dark {
@@ -470,11 +482,7 @@ ul {
   color: #f6f6f6;
 }
 
-.tabs.dark button:hover {
-  background-color: #141d26;
-}
-
-.tabs.dark button.active {
+.tabs.dark button:hover, .tabs.dark button.active {
   background-color: #141d26;
 }
 
