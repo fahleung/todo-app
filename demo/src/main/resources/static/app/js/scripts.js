@@ -18,7 +18,7 @@ $(document).ready(function () {
     });
 
     //open first tab by default
-    if (tasklists) {
+    if (tasklists.length !== 0) {
         $("#" + tasklists[0].name + "_btn").click();
     }
 })
@@ -53,18 +53,23 @@ add_todo.addEventListener('keypress', function (e) {
         let item_string = add_todo.value;
         add_todo.value = "";
 
-        let tasklistRow = getTasklistByName(selectedTasklist, tasklists);
-        if (tasklistRow) {
-            //add item to this tasklist with id x_y
-            $("#" + selectedTasklist + "_list").append(createTask(tasklistRow, item_string));
-            let taskIndex = tasklistRow.tasklist.tasks.length - 1;
-            let check = $("#check_id_" + tasklistRow.tasklist.name + '_' + taskIndex);
-            let cross = $("#cross_id_" + tasklistRow.tasklist.name + '_' + taskIndex);
-            addListListener(tasklistRow, check, cross, taskIndex);
-            updateItemsLeft(tasklistRow.tasklist.tasks.length);
+        if (tasklists.length !== 0 && selectedTasklist != null) {
+            let tasklistRow = getTasklistByName(selectedTasklist, tasklists);
+            if (tasklistRow !== null) {
+                //add item to this tasklist with id x_y
+                $("#" + selectedTasklist + "_list").append(createTask(tasklistRow, item_string));
+                let taskIndex = tasklistRow.tasklist.tasks.length - 1;
+                let check = $("#check_id_" + tasklistRow.tasklist.name + '_' + taskIndex);
+                let cross = $("#cross_id_" + tasklistRow.tasklist.name + '_' + taskIndex);
+                addListListener(tasklistRow, check, cross, taskIndex);
+                updateItemsLeft(tasklistRow.tasklist.tasks.length);
+            }
+            else {
+                console.log("Creating item error");
+            }
         }
         else {
-            console.log("Creating item error");
+            setAlert("Create a tasklist first");
         }
     }
 });
@@ -98,7 +103,7 @@ completed.addEventListener("click", function () {
     showCompleted()
 });
 
-$("#tablinks_add").on('click', function (e) {
+tablinks_add.on('click', function (e) {
     if ($("#add_tasklist").hasClass("display-block")) {
         $("#add_tasklist").removeClass("display-block");
         $("#add_tasklist").addClass("display-none");
@@ -115,21 +120,31 @@ add_tasklist.on('keypress', function (e) {
         add_tasklist.val("");
 
         //if tasklists array already exist
-        if (tasklists) {
+        if (tasklists.length !== 0) {
             //get last tasklist name btn to append to
             let lastTasklistName = tasklists[tasklists.length - 1].name;
             htmlElements = createTasklist(item_string);
             $("#" + lastTasklistName + "_btn").after(htmlElements.button);
             $("#" + lastTasklistName).after(htmlElements.div);
-            $("#" + item_string + "_btn").on('click', function (e) {
-                openTasklist(e, item_string);
-            });
         }
         else {
-            //no tasklists array, create one
+            //no tasklists array, create one and append elements differently
+            htmlElements = createTasklist(item_string);
+            tablinks_add.before(htmlElements.button);
+            $("#tabs").after(htmlElements.div);
         }
+        $("#" + item_string + "_btn").on('click', function (e) {
+            openTasklist(e, item_string);
+        });
+        $("#" + item_string + "_btn").click();
     }
 });
+
+alert.on('click', function (e) {
+    $("#alert_text").html("");
+    alert.addClass("invisible");
+});
+
 
 /* Set the width of the side navigation to 250px */
 function openNav() {

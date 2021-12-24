@@ -171,6 +171,12 @@ ul {
   -webkit-transform: rotate(135deg);
 }
 
+.header {
+  /* The alert message box */
+  /* The close button */
+  /* When moving the mouse over the close button */
+}
+
 .header__title {
   margin: 2rem 2rem 2rem;
 }
@@ -198,6 +204,30 @@ ul {
 
 .header__theme {
   cursor: pointer;
+}
+
+.header .alert {
+  padding: 20px;
+  background-color: #f44336;
+  /* Red */
+  color: white;
+  margin-bottom: 15px;
+}
+
+.header .closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.header .closebtn:hover {
+  color: black;
 }
 
 .header.light {

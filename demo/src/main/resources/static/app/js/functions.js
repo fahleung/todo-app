@@ -75,7 +75,7 @@ function createTasklist(tasklistName) {
 }
 
 function getTasklistByName(name, tasklists) {
-    if (tasklists) {
+    if (tasklists.length !== 0) {
         let i = 0;
         let tasklistFound = false;
         let tasklistToReturn;
@@ -241,6 +241,7 @@ function showAll() {
 function openTasklist(evt, tasklistName) {
     var i, tabcontent, tablinks;
     selectedTasklist = tasklistName;
+    all.click();
     updateItemsLeft(getTasklistByName(selectedTasklist, tasklists).tasklist.tasks.length);
 
     tabcontent = document.getElementsByClassName("tabs__content");
@@ -256,4 +257,10 @@ function openTasklist(evt, tasklistName) {
     document.getElementById(tasklistName).style.display = "block";
     evt.target.className += " active";
 
+}
+
+//alert
+function setAlert(text) {
+    $("#alert_text").html(text);
+    $("#alert").removeClass("invisible");
 }
