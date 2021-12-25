@@ -1,24 +1,24 @@
 $(document).ready(function () {
     console.log(tasklists);
-    //init listeners for each task
-    tasklists.forEach(function (tasklist, tasklistIndex) {
-        tasklist.tasks.forEach(function (task, taskIndex) {
-            let check = $("#check_id_" + tasklist.name + '_' + taskIndex);
-            let cross = $("#cross_id_" + tasklist.name + '_' + taskIndex);
-            tasklistRow = {
-                tasklist: tasklist,
-                index: tasklistIndex
-            }
-            addListListener(tasklistRow, check, cross, taskIndex);
-            updateItemsLeft(tasklist.tasks.length - 1);
-            if (task.completed) {
-                check.click();
-            }
-        });
-    });
 
     //open first tab by default
     if (tasklists.length !== 0) {
+        //init listeners for each task
+        tasklists.forEach(function (tasklist, tasklistIndex) {
+            tasklist.tasks.forEach(function (task, taskIndex) {
+                let check = $("#check_id_" + tasklist.name + '_' + taskIndex);
+                let cross = $("#cross_id_" + tasklist.name + '_' + taskIndex);
+                tasklistRow = {
+                    tasklist: tasklist,
+                    index: tasklistIndex
+                }
+                addListListener(tasklistRow, check, cross, taskIndex);
+                updateItemsLeft(tasklist.tasks.length - 1);
+                if (task.completed) {
+                    check.click();
+                }
+            });
+        });
         $("#" + tasklists[0].name + "_btn").click();
     }
 })
@@ -52,21 +52,9 @@ add_todo.addEventListener('keypress', function (e) {
     if (e.key === 'Enter' && add_todo.value != "") {
         let item_string = add_todo.value;
         add_todo.value = "";
-
-        if (tasklists.length !== 0 && selectedTasklist != null) {
-            let tasklistRow = getTasklistByName(selectedTasklist, tasklists);
-            if (tasklistRow !== null) {
-                //add item to this tasklist with id x_y
-                $("#" + selectedTasklist + "_list").append(createTask(tasklistRow, item_string));
-                let taskIndex = tasklistRow.tasklist.tasks.length - 1;
-                let check = $("#check_id_" + tasklistRow.tasklist.name + '_' + taskIndex);
-                let cross = $("#cross_id_" + tasklistRow.tasklist.name + '_' + taskIndex);
-                addListListener(tasklistRow, check, cross, taskIndex);
-                updateItemsLeft(tasklistRow.tasklist.tasks.length);
-            }
-            else {
-                console.log("Creating item error");
-            }
+        //save task
+        if (selectedTasklist != null && tasklists.length !== 0) {
+            addTask(selectedTasklist, item_string);
         }
         else {
             setAlert("Create a tasklist first");
@@ -118,25 +106,7 @@ add_tasklist.on('keypress', function (e) {
     if (e.key === 'Enter' && add_tasklist.val() != "") {
         let item_string = add_tasklist.val();
         add_tasklist.val("");
-
-        //if tasklists array already exist
-        if (tasklists.length !== 0) {
-            //get last tasklist name btn to append to
-            let lastTasklistName = tasklists[tasklists.length - 1].name;
-            htmlElements = createTasklist(item_string);
-            $("#" + lastTasklistName + "_btn").after(htmlElements.button);
-            $("#" + lastTasklistName).after(htmlElements.div);
-        }
-        else {
-            //no tasklists array, create one and append elements differently
-            htmlElements = createTasklist(item_string);
-            tablinks_add.before(htmlElements.button);
-            $("#tabs").after(htmlElements.div);
-        }
-        $("#" + item_string + "_btn").on('click', function (e) {
-            openTasklist(e, item_string);
-        });
-        $("#" + item_string + "_btn").click();
+        addTasklist(item_string);
     }
 });
 

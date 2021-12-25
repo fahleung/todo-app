@@ -15,12 +15,13 @@ function createTask(tasklistRow, taskName) {
     span.classList.add('flex');
     span.classList.add('flex-ai-c');
     span.classList.add('gap-1-10');
+    let index = tasklistRow.tasklist.tasks.length - 1;
     //check img setup
-    check_img.id = "check_id_" + tasklistRow.tasklist.name + '_' + tasklistRow.tasklist.tasks.length;
+    check_img.id = "check_id_" + tasklistRow.tasklist.name + '_' + index;
     check_img.classList.add('border-white');
     check_img.src = check_img_url;
     //cross img setup
-    cross_img.id = "cross_id_" + tasklistRow.tasklist.name + '_' + tasklistRow.tasklist.tasks.length;
+    cross_img.id = "cross_id_" + tasklistRow.tasklist.name + '_' + index;
     cross_img.classList.add('cross');
     cross_img.src = cross_img_url;
     //p
@@ -31,10 +32,6 @@ function createTask(tasklistRow, taskName) {
 
     li.appendChild(span);
     li.appendChild(cross_img);
-
-    //save task
-    tasklists = addTask(tasklists, tasklistRow.index, taskName);
-    //li.addEventListener('ondragstart', onDragStart(event))
     return li;
 }
 
@@ -61,10 +58,6 @@ function createTasklist(tasklistName) {
     ul.classList.add('flex-d-col');
 
     div.appendChild(ul);
-
-    //save tasklist
-    //create tasklist
-    tasklists = addTasklist(tasklists, tasklistName);
 
     let htmlElements = {
         button: button,
@@ -96,7 +89,6 @@ function getTasklistByName(name, tasklists) {
 }
 
 function addListListener(tasklistRow, check, cross, taskIndex) {
-
     //check hover
     check.on("mouseover", function () {
         if (!check.hasClass('check') && !check.hasClass('border-colored')) {
@@ -129,17 +121,13 @@ function addListListener(tasklistRow, check, cross, taskIndex) {
             isCompleted = false;
         }
         //complete
-        tasklists = completeTask(tasklists, tasklistRow.index, taskIndex, isCompleted);
-        updateItemsLeft(tasklistRow.tasklist.tasks.length);
+        completeTask(tasklists, tasklistRow.index, taskIndex, isCompleted);
     });
 
     //item
     cross.on("click", function () {
-        if (!check.hasClass('check')) {
-            //delete
-            tasklists = deleteTask(tasklists, tasklistRow.index, taskIndex);
-            updateItemsLeft(tasklistRow.tasklist.tasks.length);
-        }
+        //delete
+        deleteTask(tasklistRow.index, taskIndex);
         cross.parent().remove();
     });
 }

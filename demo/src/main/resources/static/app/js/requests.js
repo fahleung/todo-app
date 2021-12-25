@@ -4,48 +4,65 @@ var header = $('#_csrf_header').attr('content');
 //add tasklist
 const user_id = 1;
 
-$("#send").click(function (e) {
-    e.preventDefault();
-    const obj = { name: "myfirsttasklist" };
-    $.ajax({
+//add task
+function addTask(tasklistName, taskName) {
+    let json = {
+        tasklistname: tasklistName,
+        taskname: taskName
+    }
 
+    $.ajax({
         method: "POST",
-        url: "/api/tasklist/" + user_id,
+        url: "/api/task/" + user_id,
         contentType: 'application/json',
         headers: { 'X-CSRF-Token': token },
-        data: JSON.stringify(obj)
+        data: JSON.stringify(json)
     })
         .done(function (msg) {
-            alert("Data Saved: " + msg);
+            let task = {
+                name: taskName,
+                time: null,
+                completed: false
+            };
+            let tasklistRow = getTasklistByName(tasklistName, tasklists);
+            tasklists[tasklistRow.index].tasks.push(task);
+            if (tasklistRow !== null) {
+                //add item to this tasklist with id x_y
+                $("#" + tasklistName + "_list").append(createTask(tasklistRow, taskName));
+                let taskIndex = tasklistRow.tasklist.tasks.length - 1;
+                let check = $("#check_id_" + tasklistRow.tasklist.name + '_' + taskIndex);
+                let cross = $("#cross_id_" + tasklistRow.tasklist.name + '_' + taskIndex);
+                addListListener(tasklistRow, check, cross, taskIndex);
+                updateItemsLeft(tasklistRow.tasklist.tasks.length);
+            }
+            else {
+                console.log("Creating item error");
+            }
         })
         .fail(function (msg) {
-            alert("failed to save " + msg);
         });
-
-});
-
-//add task
-function addTask(tasklists, tasklistIndex, taskName) {
-    //request
-
-    //on success
-    let task = {
-        name: taskName,
-        time: null,
-        completed: false
-    };
-    tasklists[tasklistIndex].tasks.push(task);
-    console.log(tasklists);
-    return tasklists;
 }
 
-
 //delete task
-function deleteTask(tasklists, tasklistIndex, taskIndex) {
-    //request
-    //on success
-    tasklists[tasklistIndex].tasks.splice(taskIndex, 1);
-    return tasklists;
+function deleteTask(tasklistIndex, taskIndex) {
+    let json = {
+        taskname: tasklists[tasklistIndex].tasks[taskIndex].name,
+        tasklistname: selectedTasklist
+    }
+
+    $.ajax({
+        method: "DELETE",
+        url: "/api/task/" + user_id,
+        contentType: 'application/json',
+        headers: { 'X-CSRF-Token': token },
+        data: JSON.stringify(json)
+    })
+        .done(function (msg) {
+            //tasklists[tasklistIndex].tasks.splice(taskIndex, 1);
+            updateItemsLeft(tasklists[tasklistIndex].tasks.length);
+        })
+        .fail(function (msg) {
+        });
 }
 
 //complete task
@@ -57,13 +74,42 @@ function completeTask(tasklists, tasklistIndex, taskIndex, isCompleted) {
 }
 
 //add tasklist
-function addTasklist(tasklists, tasklistName) {
-    //request
-    //on success
-    newTasklist = {
-        tasks: [],
+function addTasklist(tasklistName) {
+    let json = {
         name: tasklistName
-    };
-    tasklists.push(newTasklist);
-    return tasklists;
+    }
+
+    $.ajax({
+        method: "POST",
+        url: "/api/tasklist/" + user_id,
+        contentType: 'application/json',
+        headers: { 'X-CSRF-Token': token },
+        data: JSON.stringify(json)
+    })
+        .done(function (msg) {
+            let newTasklist = {
+                tasks: [],
+                name: tasklistName
+            };
+            //if tasklists array already exist
+            if (tasklists.length !== 0) {
+                //get last tasklist name btn to append to
+                let lastTasklistName = tasklists[tasklists.length - 1].name;
+                htmlElements = createTasklist(tasklistName);
+                $("#" + lastTasklistName + "_btn").after(htmlElements.button);
+                $("#" + lastTasklistName).after(htmlElements.div);
+            }
+            else {
+                htmlElements = createTasklist(tasklistName);
+                tablinks_add.before(htmlElements.button);
+                $("#tabs").after(htmlElements.div);
+            }
+            tasklists.push(newTasklist);
+            $("#" + tasklistName + "_btn").on('click', function (e) {
+                openTasklist(e, tasklistName);
+            });
+            $("#" + tasklistName + "_btn").click();
+        })
+        .fail(function (msg) {
+        });
 }

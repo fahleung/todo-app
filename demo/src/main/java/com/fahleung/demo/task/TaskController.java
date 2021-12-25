@@ -1,5 +1,8 @@
 package com.fahleung.demo.task;
 
+import java.security.Principal;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,15 +25,16 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @PostMapping(path = { "tasklist_id" })
-    public ResponseEntity<String> saveTask(@PathVariable Long tasklist_id, @RequestBody Task task) {
-        return taskService.saveTask(tasklist_id, task);
+    @PostMapping(path = "{user_id}")
+    public ResponseEntity<String> saveTask(@PathVariable Long user_id, @RequestBody Map<String, String> body,
+            Principal principal) {
+        return taskService.saveTask(user_id, body.get("taskname"), body.get("tasklistname"), principal.getName());
     }
 
-    @DeleteMapping(path = "{tasklist_id}/{task_id}")
-    public ResponseEntity<String> deleteTask(@PathVariable("tasklist_id") Long tasklist_id,
-            @PathVariable("task_id") Long task_id) {
-        return taskService.deleteTask(tasklist_id, task_id);
+    @DeleteMapping(path = "{user_id}")
+    public ResponseEntity<String> deleteTask(@PathVariable Long user_id, @RequestBody Map<String, String> body,
+            Principal principal) {
+        return taskService.deleteTask(user_id, body.get("taskname"), body.get("tasklistname"), principal.getName());
     }
 
     @PutMapping(path = "{tasklist_id}/{task_id}")

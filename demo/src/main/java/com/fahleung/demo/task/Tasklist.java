@@ -51,6 +51,14 @@ public class Tasklist {
         this.name = name;
     }
 
+    public Long getTasklist_id() {
+        return tasklist_id;
+    }
+
+    public void setTasklist_id(Long tasklist_id) {
+        this.tasklist_id = tasklist_id;
+    }
+
     public Set<Task> getTasks() {
         return tasks;
     }
