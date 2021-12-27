@@ -36,10 +36,11 @@ function addTask(tasklistName, taskName) {
                 updateItemsLeft(tasklistRow.tasklist.tasks.length);
             }
             else {
-                console.log("Creating item error");
+                setAlert("Creating item error");
             }
         })
         .fail(function (msg) {
+            setAlert(msg.responseText);
         });
 }
 
@@ -62,6 +63,7 @@ function deleteTask(tasklistIndex, taskIndex) {
             updateItemsLeft(tasklists[tasklistIndex].tasks.length);
         })
         .fail(function (msg) {
+            setAlert(msg.responseText);
         });
 }
 
@@ -88,6 +90,7 @@ function completeTask(tasklistIndex, taskIndex) {
             tasklists[tasklistIndex].tasks[taskIndex].completed = isCompleted;
         })
         .fail(function (msg) {
+            setAlert(msg.responseText);
         });
     //on success
 }
@@ -131,5 +134,6 @@ function addTasklist(tasklistName) {
             $("#" + name + "_btn").click();
         })
         .fail(function (msg) {
+            setAlert(msg.responseText);
         });
 }

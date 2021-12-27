@@ -32,7 +32,7 @@ public class TaskService {
         if (user.isPresent()) {
             // check with current logged user
             if (!user.get().getUsername().equals(username)) {
-                return new ResponseEntity<>("Problem occured", HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>("Access denied", HttpStatus.FORBIDDEN);
             }
             // check if tasklist exist
             if (!tasklist.isPresent()) {
@@ -54,7 +54,7 @@ public class TaskService {
         if (user.isPresent()) {
             // check with current logged user
             if (!user.get().getUsername().equals(username)) {
-                return new ResponseEntity<>("Problem occured", HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>("Access denied", HttpStatus.FORBIDDEN);
             }
             // check if tasklist exist
             if (!tasklist.isPresent()) {
@@ -77,7 +77,7 @@ public class TaskService {
         if (user.isPresent()) {
             // check with current logged user
             if (!user.get().getUsername().equals(username)) {
-                return new ResponseEntity<>("Problem occured", HttpStatus.FORBIDDEN);
+                return new ResponseEntity<>("Access denied", HttpStatus.FORBIDDEN);
             }
             // check if tasklist exist
             if (!tasklist.isPresent()) {
