@@ -15,7 +15,11 @@ $(document).ready(function () {
                 addListListener(tasklistRow, check, cross, taskIndex);
                 updateItemsLeft(tasklist.tasks.length - 1);
                 if (task.completed) {
-                    check.click();
+                    check.removeClass('border-colored');
+                    check.removeClass('border-white');
+                    check.addClass('check');
+                    check.next().addClass('line');
+                    //check.click();
                 }
             });
         });
