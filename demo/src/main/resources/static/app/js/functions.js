@@ -139,8 +139,8 @@ function clearCompleted() {
         let cross = $("#cross_id_" + tasklistRow.tasklist.name + '_' + i);
         if (check != null && check.hasClass('check')) {
             cross.parent().remove();
+            deleteTask(tasklistRow.index, i);
         }
-        tasklists = deleteTask(tasklists, tasklistRow.index, i);
         updateItemsLeft(tasklistRow.tasklist.tasks.length);
     });
 }
