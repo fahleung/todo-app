@@ -1,8 +1,6 @@
 var token = $('#_csrf').attr('content');
 var header = $('#_csrf_header').attr('content');
 
-//add tasklist
-
 //add task
 function addTask(tasklistName, taskName) {
     let name = firstCapitalLetter(taskName);
@@ -59,7 +57,6 @@ function deleteTask(tasklistIndex, taskIndex) {
         data: JSON.stringify(json)
     })
         .done(function (msg) {
-            //tasklists[tasklistIndex].tasks.splice(taskIndex, 1);
             updateItemsLeft(tasklistIndex);
         })
         .fail(function (msg) {
@@ -85,7 +82,6 @@ function completeTask(tasklistIndex, taskIndex) {
         data: JSON.stringify(json)
     })
         .done(function (msg) {
-            //tasklists[tasklistIndex].tasks.splice(taskIndex, 1);
             updateItemsLeft(tasklistIndex);
             tasklists[tasklistIndex].tasks[taskIndex].completed = isCompleted;
         })

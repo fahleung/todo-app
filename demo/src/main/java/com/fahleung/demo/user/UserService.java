@@ -59,7 +59,6 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean isEmailAlreadyInUse(String value) {
-        System.out.println("test");
         Optional<User> userOptional = userRepository.findUserByEmail(value);
         if (userOptional.isPresent()) {
             return true;

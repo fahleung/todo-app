@@ -31,26 +31,26 @@ public class UserConfig {
             TaskRepository taskRepository) {
         return args -> {
             // CREATE USER
-            User fabien = new User("fabien", passwordEncoder.encode("azerty123"), passwordEncoder.encode("azerty123"),
+            User fabien = new User("Fabien", passwordEncoder.encode("azerty123"), passwordEncoder.encode("azerty123"),
                     "fabien@gmail.com");
             repository.save(fabien);
             // CREATE TASKLISTS
-            Tasklist tasklist1 = new Tasklist("tasklist1");
-            Tasklist tasklist2 = new Tasklist("tasklist2");
-            Tasklist tasklist3 = new Tasklist("tasklist3");
+            Tasklist tasklist1 = new Tasklist("Tasklist1");
+            Tasklist tasklist2 = new Tasklist("Tasklist2");
+            Tasklist tasklist3 = new Tasklist("Tasklist3");
             tasklist1.setUser(fabien);
             tasklist2.setUser(fabien);
             tasklist3.setUser(fabien);
             Set<Tasklist> set = new HashSet<Tasklist>();
             // CREATE TASKS
             Timestamp stamp = new Timestamp(System.currentTimeMillis());
-            Task task1 = new Task("task1", stamp, false);
-            Task task2 = new Task("task2", stamp, true);
-            Task task3 = new Task("task3", stamp, false);
-            Task task4 = new Task("task4", stamp, false);
-            Task task5 = new Task("task5", stamp, false);
-            Task task6 = new Task("task6", stamp, false);
-            Task task7 = new Task("task7", stamp, false);
+            Task task1 = new Task("Task1", stamp, false);
+            Task task2 = new Task("Task2", stamp, true);
+            Task task3 = new Task("Task3", stamp, false);
+            Task task4 = new Task("Task4", stamp, false);
+            Task task5 = new Task("Task5", stamp, false);
+            Task task6 = new Task("Task6", stamp, false);
+            Task task7 = new Task("Task7", stamp, false);
             task1.setTasklist(tasklist1);
             task2.setTasklist(tasklist1);
             task3.setTasklist(tasklist2);

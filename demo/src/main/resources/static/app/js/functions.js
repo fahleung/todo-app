@@ -153,7 +153,7 @@ function updateItemsLeft(tasklistIndex) {
             number++;
         }
     })
-    item_left.innerHTML = number + " items";
+    item_left.innerHTML = number + " items left";
 }
 
 //change light theme <=> dark theme
