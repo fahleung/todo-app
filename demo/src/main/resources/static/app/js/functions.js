@@ -105,23 +105,22 @@ function addListListener(tasklistRow, check, cross, taskIndex) {
     });
 
     check.on("click", function () {
-        let isCompleted;
         if (!check.hasClass('check')) {
             check.removeClass('border-colored');
             check.removeClass('border-white');
             check.addClass('check');
             check.next().addClass('line');
-            isCompleted = true;
+            tasklists[tasklistRow.index].tasks[taskIndex].completed = true;
         }
         else {
             check.removeClass('border-colored');
             check.addClass('border-white');
             check.removeClass('check');
             check.next().removeClass('line');
-            isCompleted = false;
+            tasklists[tasklistRow.index].tasks[taskIndex].completed = false;
         }
         //complete
-        completeTask(tasklists, tasklistRow.index, taskIndex, isCompleted);
+        completeTask(tasklistRow.index, taskIndex);
     });
 
     //item

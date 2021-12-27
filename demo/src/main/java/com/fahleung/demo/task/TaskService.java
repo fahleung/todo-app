@@ -68,7 +68,29 @@ public class TaskService {
         return new ResponseEntity<>("Problem occured", HttpStatus.BAD_REQUEST);
     }
 
-    public void updateTask(Long tasklist_id, Long task_id, String name) {
+    public ResponseEntity<String> updateTask(Long user_id, String taskname, String tasklistname, String username,
+            boolean isCompleted) {
+        Optional<User> user = userRepository.findById(user_id);
+        Optional<Tasklist> tasklist = tasklistRepository.findByNameAndUserId(tasklistname, user_id);
+        Optional<Task> task = taskRepository.findByNameAndTasklistName(taskname, tasklistname);
+        if (user.isPresent()) {
+            // check with current logged user
+            if (!user.get().getUsername().equals(username)) {
+                return new ResponseEntity<>("Problem occured", HttpStatus.FORBIDDEN);
+            }
+            // check if tasklist exist
+            if (!tasklist.isPresent()) {
+                return new ResponseEntity<>("Tasklist doesn't exist", HttpStatus.BAD_REQUEST);
+            }
+            if (!task.isPresent()) {
+                return new ResponseEntity<>("Task doesn't exist", HttpStatus.BAD_REQUEST);
+            }
+            System.out.println("test");
+            taskRepository.switchCompleteTaskByNameAndTasklistId(taskname, tasklist.get().getTasklist_id(),
+                    isCompleted);
+            return new ResponseEntity<>("Deleted", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Problem occured", HttpStatus.BAD_REQUEST);
     }
 
 }

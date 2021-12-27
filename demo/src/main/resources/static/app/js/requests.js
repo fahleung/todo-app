@@ -2,7 +2,6 @@ var token = $('#_csrf').attr('content');
 var header = $('#_csrf_header').attr('content');
 
 //add tasklist
-const user_id = 1;
 
 //add task
 function addTask(tasklistName, taskName) {
@@ -66,11 +65,30 @@ function deleteTask(tasklistIndex, taskIndex) {
 }
 
 //complete task
-function completeTask(tasklists, tasklistIndex, taskIndex, isCompleted) {
+function completeTask(tasklistIndex, taskIndex) {
+    let isCompleted = tasklists[tasklistIndex].tasks[taskIndex].completed;
     //request
+    let json = {
+        taskname: tasklists[tasklistIndex].tasks[taskIndex].name,
+        tasklistname: selectedTasklist,
+        isCompleted: isCompleted
+    }
+
+    $.ajax({
+        method: "PUT",
+        url: "/api/task/" + user_id,
+        contentType: 'application/json',
+        headers: { 'X-CSRF-Token': token },
+        data: JSON.stringify(json)
+    })
+        .done(function (msg) {
+            //tasklists[tasklistIndex].tasks.splice(taskIndex, 1);
+            updateItemsLeft(tasklists[tasklistIndex].tasks.length);
+            tasklists[tasklistIndex].tasks[taskIndex].completed = isCompleted;
+        })
+        .fail(function (msg) {
+        });
     //on success
-    tasklists[tasklistIndex].tasks[taskIndex].completed = isCompleted;
-    return tasklists;
 }
 
 //add tasklist

@@ -22,4 +22,10 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     Optional<Task> findByNameAndTasklistName(@Param("taskname") String taskname,
             @Param("tasklistname") String tasklistname);
 
+    @Transactional
+    @Modifying(clearAutomatically = true)
+    @Query("UPDATE Task t SET t.completed=:isCompleted WHERE t.name=:name AND t.tasklist.tasklist_id=:id")
+    void switchCompleteTaskByNameAndTasklistId(@Param("name") String taskname, @Param("id") Long tasklist_id,
+            @Param("isCompleted") boolean isCompleted);
+
 }

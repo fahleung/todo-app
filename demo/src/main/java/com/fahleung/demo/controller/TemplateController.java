@@ -34,6 +34,7 @@ public class TemplateController {
     public ModelAndView getIndex(@AuthenticationPrincipal User user) {
         ModelAndView modelAndView = new ModelAndView("index");
         modelAndView.addObject("tasklists", tasklistService.getUserTasklists(user.getId()));
+        modelAndView.addObject("user_id", user.getId());
         return modelAndView;
     }
 }

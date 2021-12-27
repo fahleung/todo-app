@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -37,10 +36,12 @@ public class TaskController {
         return taskService.deleteTask(user_id, body.get("taskname"), body.get("tasklistname"), principal.getName());
     }
 
-    @PutMapping(path = "{tasklist_id}/{task_id}")
-    public void updateTask(@PathVariable("tasklist_id") Long tasklist_id, @PathVariable("task_id") Long task_id,
-            @RequestParam String name) {
-        taskService.updateTask(tasklist_id, task_id, name);
+    @PutMapping(path = "{user_id}")
+    public ResponseEntity<String> updateTask(@PathVariable Long user_id, @RequestBody Map<String, String> body,
+            Principal principal) {
+        System.out.println(body);
+        return taskService.updateTask(user_id, body.get("taskname"), body.get("tasklistname"), principal.getName(),
+                Boolean.parseBoolean(body.get("isCompleted")));
     }
 
 }
