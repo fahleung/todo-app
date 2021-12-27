@@ -141,12 +141,18 @@ function clearCompleted() {
             cross.parent().remove();
             deleteTask(tasklistRow.index, i);
         }
-        updateItemsLeft(tasklistRow.tasklist.tasks.length);
+        updateItemsLeft(tasklistRow.index);
     });
 }
 
 //function update items left number
-function updateItemsLeft(number) {
+function updateItemsLeft(tasklistIndex) {
+    let number = 0;
+    tasklists[tasklistIndex].tasks.forEach(function (e, i) {
+        if (e.completed == false && $("#check_id_" + tasklists[tasklistIndex].name + "_" + i).length != 0) {
+            number++;
+        }
+    })
     item_left.innerHTML = number + " items";
 }
 
@@ -229,7 +235,7 @@ function openTasklist(evt, tasklistName) {
     var i, tabcontent, tablinks;
     selectedTasklist = tasklistName;
     all.click();
-    updateItemsLeft(getTasklistByName(selectedTasklist, tasklists).tasklist.tasks.length);
+    updateItemsLeft(getTasklistByName(selectedTasklist, tasklists).index);
 
     tabcontent = document.getElementsByClassName("tabs__content");
     for (i = 0; i < tabcontent.length; i++) {

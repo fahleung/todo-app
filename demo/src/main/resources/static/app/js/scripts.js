@@ -13,7 +13,7 @@ $(document).ready(function () {
                     index: tasklistIndex
                 }
                 addListListener(tasklistRow, check, cross, taskIndex);
-                updateItemsLeft(tasklist.tasks.length - 1);
+                updateItemsLeft(tasklistIndex);
                 if (task.completed) {
                     check.removeClass('border-colored');
                     check.removeClass('border-white');

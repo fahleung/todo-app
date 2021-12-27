@@ -33,7 +33,7 @@ function addTask(tasklistName, taskName) {
                 let check = $("#check_id_" + tasklistRow.tasklist.name + '_' + taskIndex);
                 let cross = $("#cross_id_" + tasklistRow.tasklist.name + '_' + taskIndex);
                 addListListener(tasklistRow, check, cross, taskIndex);
-                updateItemsLeft(tasklistRow.tasklist.tasks.length);
+                updateItemsLeft(tasklistRow.index);
             }
             else {
                 setAlert("Creating item error");
@@ -60,7 +60,7 @@ function deleteTask(tasklistIndex, taskIndex) {
     })
         .done(function (msg) {
             //tasklists[tasklistIndex].tasks.splice(taskIndex, 1);
-            updateItemsLeft(tasklists[tasklistIndex].tasks.length);
+            updateItemsLeft(tasklistIndex);
         })
         .fail(function (msg) {
             setAlert(msg.responseText);
@@ -86,7 +86,7 @@ function completeTask(tasklistIndex, taskIndex) {
     })
         .done(function (msg) {
             //tasklists[tasklistIndex].tasks.splice(taskIndex, 1);
-            updateItemsLeft(tasklists[tasklistIndex].tasks.length);
+            updateItemsLeft(tasklistIndex);
             tasklists[tasklistIndex].tasks[taskIndex].completed = isCompleted;
         })
         .fail(function (msg) {
