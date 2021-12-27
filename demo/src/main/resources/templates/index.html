@@ -39,6 +39,7 @@
 
   <div id="sidenav" class="sidenav light">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <h3 class="text-a-c" th:text="Welcome+' '+${username}">Welcome </h3>
     <form method="post" th:action="@{/logout}">
       <button class="" type="submit">Logout</button>
     </form>

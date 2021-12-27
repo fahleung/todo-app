@@ -39,7 +39,7 @@ public class TasklistService {
             if (tasklist.isPresent()) {
                 return new ResponseEntity<>("Tasklist name already exist", HttpStatus.BAD_REQUEST);
             }
-            Tasklist newTasklist = new Tasklist(name);
+            Tasklist newTasklist = new Tasklist(name.substring(0, 1).toUpperCase() + name.substring(1));
             newTasklist.setUser(user.get());
             tasklistRepository.save(newTasklist);
             return new ResponseEntity<>("Saved", HttpStatus.OK);

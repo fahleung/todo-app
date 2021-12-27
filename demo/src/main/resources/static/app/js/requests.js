@@ -5,9 +5,10 @@ var header = $('#_csrf_header').attr('content');
 
 //add task
 function addTask(tasklistName, taskName) {
+    let name = firstCapitalLetter(taskName);
     let json = {
         tasklistname: tasklistName,
-        taskname: taskName
+        taskname: name
     }
 
     $.ajax({
@@ -19,7 +20,7 @@ function addTask(tasklistName, taskName) {
     })
         .done(function (msg) {
             let task = {
-                name: taskName,
+                name: name,
                 time: null,
                 completed: false
             };
@@ -27,7 +28,7 @@ function addTask(tasklistName, taskName) {
             tasklists[tasklistRow.index].tasks.push(task);
             if (tasklistRow !== null) {
                 //add item to this tasklist with id x_y
-                $("#" + tasklistName + "_list").append(createTask(tasklistRow, taskName));
+                $("#" + tasklistName + "_list").append(createTask(tasklistRow, name));
                 let taskIndex = tasklistRow.tasklist.tasks.length - 1;
                 let check = $("#check_id_" + tasklistRow.tasklist.name + '_' + taskIndex);
                 let cross = $("#cross_id_" + tasklistRow.tasklist.name + '_' + taskIndex);
@@ -93,8 +94,9 @@ function completeTask(tasklistIndex, taskIndex) {
 
 //add tasklist
 function addTasklist(tasklistName) {
+    let name = firstCapitalLetter(tasklistName);
     let json = {
-        name: tasklistName
+        name: name
     }
 
     $.ajax({
@@ -107,26 +109,26 @@ function addTasklist(tasklistName) {
         .done(function (msg) {
             let newTasklist = {
                 tasks: [],
-                name: tasklistName
+                name: name
             };
             //if tasklists array already exist
             if (tasklists.length !== 0) {
                 //get last tasklist name btn to append to
                 let lastTasklistName = tasklists[tasklists.length - 1].name;
-                htmlElements = createTasklist(tasklistName);
+                htmlElements = createTasklist(name);
                 $("#" + lastTasklistName + "_btn").after(htmlElements.button);
                 $("#" + lastTasklistName).after(htmlElements.div);
             }
             else {
-                htmlElements = createTasklist(tasklistName);
+                htmlElements = createTasklist(name);
                 tablinks_add.before(htmlElements.button);
                 $("#tabs").after(htmlElements.div);
             }
             tasklists.push(newTasklist);
-            $("#" + tasklistName + "_btn").on('click', function (e) {
-                openTasklist(e, tasklistName);
+            $("#" + name + "_btn").on('click', function (e) {
+                openTasklist(e, name);
             });
-            $("#" + tasklistName + "_btn").click();
+            $("#" + name + "_btn").click();
         })
         .fail(function (msg) {
         });

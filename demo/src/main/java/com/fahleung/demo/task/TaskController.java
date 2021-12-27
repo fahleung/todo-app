@@ -39,7 +39,6 @@ public class TaskController {
     @PutMapping(path = "{user_id}")
     public ResponseEntity<String> updateTask(@PathVariable Long user_id, @RequestBody Map<String, String> body,
             Principal principal) {
-        System.out.println(body);
         return taskService.updateTask(user_id, body.get("taskname"), body.get("tasklistname"), principal.getName(),
                 Boolean.parseBoolean(body.get("isCompleted")));
     }

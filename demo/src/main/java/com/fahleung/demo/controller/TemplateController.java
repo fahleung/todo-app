@@ -35,6 +35,7 @@ public class TemplateController {
         ModelAndView modelAndView = new ModelAndView("index");
         modelAndView.addObject("tasklists", tasklistService.getUserTasklists(user.getId()));
         modelAndView.addObject("user_id", user.getId());
+        modelAndView.addObject("username", user.getUsername());
         return modelAndView;
     }
 }

@@ -25,7 +25,7 @@ function createTask(tasklistRow, taskName) {
     cross_img.classList.add('cross');
     cross_img.src = cross_img_url;
     //p
-    p.innerHTML = taskName.charAt(0).toUpperCase() + taskName.slice(1);
+    p.innerHTML = firstCapitalLetter(taskName);
 
     span.appendChild(check_img);
     span.appendChild(p);
@@ -44,7 +44,7 @@ function createTasklist(tasklistName) {
     //button tab setup
     button.id = tasklistName + "_btn";
     button.classList.add("tablinks");
-    button.innerHTML = tasklistName;
+    button.innerHTML = firstCapitalLetter(tasklistName);
 
     //div setup
     div.id = tasklistName;
@@ -250,4 +250,8 @@ function openTasklist(evt, tasklistName) {
 function setAlert(text) {
     $("#alert_text").html(text);
     $("#alert").removeClass("invisible");
+}
+
+function firstCapitalLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }

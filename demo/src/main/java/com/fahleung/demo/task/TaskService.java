@@ -38,7 +38,8 @@ public class TaskService {
             if (!tasklist.isPresent()) {
                 return new ResponseEntity<>("Tasklist doesn't exist", HttpStatus.BAD_REQUEST);
             }
-            Task newTask = new Task(taskname, new Timestamp(System.currentTimeMillis()), false);
+            Task newTask = new Task(taskname.substring(0, 1).toUpperCase() + taskname.substring(1),
+                    new Timestamp(System.currentTimeMillis()), false);
             newTask.setTasklist(tasklist.get());
             taskRepository.save(newTask);
             return new ResponseEntity<>("Saved", HttpStatus.OK);
@@ -85,7 +86,6 @@ public class TaskService {
             if (!task.isPresent()) {
                 return new ResponseEntity<>("Task doesn't exist", HttpStatus.BAD_REQUEST);
             }
-            System.out.println("test");
             taskRepository.switchCompleteTaskByNameAndTasklistId(taskname, tasklist.get().getTasklist_id(),
                     isCompleted);
             return new ResponseEntity<>("Deleted", HttpStatus.OK);
