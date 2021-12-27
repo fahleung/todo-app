@@ -19,7 +19,6 @@ $(document).ready(function () {
                     check.removeClass('border-white');
                     check.addClass('check');
                     check.next().addClass('line');
-                    //check.click();
                 }
             });
         });

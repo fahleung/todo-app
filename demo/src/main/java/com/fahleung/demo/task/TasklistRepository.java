@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TasklistRepository extends JpaRepository<Tasklist, Long> {
 
-    @Query("SELECT tl FROM Tasklist tl WHERE tl.user.user_id=:id")
+    @Query("SELECT tl FROM Tasklist tl WHERE tl.user.user_id=:id ORDER BY tl.id DESC")
     List<Tasklist> findTasklistByUserId(@Param("id") Long user_id);
 
     @Query("SELECT tl FROM Tasklist tl WHERE tl.user.user_id=:name")
