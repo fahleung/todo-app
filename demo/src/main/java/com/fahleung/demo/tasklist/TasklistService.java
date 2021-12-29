@@ -1,4 +1,4 @@
-package com.fahleung.demo.task;
+package com.fahleung.demo.tasklist;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,22 +27,24 @@ public class TasklistService {
         return tasklistRepository.findTasklistByUserId(user_id);
     }
 
-    public ResponseEntity<String> saveTasklist(Long user_id, String name, String username) {
-        Optional<User> user = userRepository.findById(user_id);
-        Optional<Tasklist> tasklist = tasklistRepository.findByNameAndUserId(name, user_id);
+    public ResponseEntity<String> saveTasklist(TasklistDto tasklistDto) {
+        Optional<User> user = userRepository.findById(tasklistDto.getUser_id());
+        Optional<Tasklist> tasklist = tasklistRepository.findByNameAndUserId(tasklistDto.getName(),
+                tasklistDto.getUser_id());
         if (user.isPresent()) {
             // check with current logged user
-            if (!user.get().getUsername().equals(username)) {
+            if (!user.get().getUsername().equals(tasklistDto.getLogUsername())) {
                 return new ResponseEntity<>("Access denied", HttpStatus.FORBIDDEN);
             }
             // check if tasklist exist
             if (tasklist.isPresent()) {
                 return new ResponseEntity<>("Tasklist name already exist", HttpStatus.BAD_REQUEST);
             }
-            Tasklist newTasklist = new Tasklist(name.substring(0, 1).toUpperCase() + name.substring(1));
+            Tasklist newTasklist = new Tasklist(
+                    tasklistDto.getName().substring(0, 1).toUpperCase() + tasklistDto.getName().substring(1));
             newTasklist.setUser(user.get());
             tasklistRepository.save(newTasklist);
-            return new ResponseEntity<>("Saved", HttpStatus.OK);
+            return new ResponseEntity<>("Saved", HttpStatus.CREATED);
         }
         return new ResponseEntity<>("Problem occured", HttpStatus.BAD_REQUEST);
     }

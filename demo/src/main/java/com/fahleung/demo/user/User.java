@@ -21,7 +21,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fahleung.demo.security.ApplicationUserRole;
-import com.fahleung.demo.task.Tasklist;
+import com.fahleung.demo.tasklist.Tasklist;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import org.springframework.security.core.GrantedAuthority;

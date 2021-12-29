@@ -1,4 +1,4 @@
-package com.fahleung.demo.task;
+package com.fahleung.demo.tasklist;
 
 import java.security.Principal;
 import java.util.List;
@@ -35,6 +35,10 @@ public class TasklistController {
     @PostMapping(path = "{user_id}")
     public ResponseEntity<String> saveTasklist(@PathVariable Long user_id, @RequestBody Map<String, String> body,
             Principal principal) {
-        return tasklistService.saveTasklist(user_id, body.get("name"), principal.getName());
+        TasklistDto tasklistDto = new TasklistDto();
+        tasklistDto.setLogUsername(principal.getName());
+        tasklistDto.setUser_id(user_id);
+        tasklistDto.setName(body.get("name"));
+        return tasklistService.saveTasklist(tasklistDto);
     }
 }

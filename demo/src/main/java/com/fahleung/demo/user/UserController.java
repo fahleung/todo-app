@@ -32,7 +32,6 @@ public class UserController {
 
     @PostMapping("/register")
     public String registerUser(@Valid @ModelAttribute User user, BindingResult bindingResult) {
-        System.out.println("binding " + bindingResult.hasErrors());
         if (bindingResult.hasErrors() || userService.register(user, bindingResult).hasErrors()) {
             return "login";
         } else {

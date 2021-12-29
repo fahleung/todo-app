@@ -7,8 +7,8 @@ import java.util.Set;
 
 import com.fahleung.demo.task.Task;
 import com.fahleung.demo.task.TaskRepository;
-import com.fahleung.demo.task.Tasklist;
-import com.fahleung.demo.task.TasklistRepository;
+import com.fahleung.demo.tasklist.Tasklist;
+import com.fahleung.demo.tasklist.TasklistRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

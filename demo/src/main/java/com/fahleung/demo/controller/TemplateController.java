@@ -1,7 +1,9 @@
 package com.fahleung.demo.controller;
 
-import com.fahleung.demo.task.TasklistService;
+import com.fahleung.demo.tasklist.TasklistService;
 import com.fahleung.demo.user.User;
+import com.fahleung.demo.user.UserCreationDto;
+import com.fahleung.demo.user.UserDto;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,17 +27,19 @@ public class TemplateController {
 
     @GetMapping("login")
     public String getLoginView(WebRequest request, Model model) {
-        User userDto = new User();
-        model.addAttribute("user", userDto);
+        UserCreationDto userCreationDto = new UserCreationDto();
+        model.addAttribute("user", userCreationDto);
         return "login";
     }
 
     @GetMapping("index")
     public ModelAndView getIndex(@AuthenticationPrincipal User user) {
         ModelAndView modelAndView = new ModelAndView("index");
-        modelAndView.addObject("tasklists", tasklistService.getUserTasklists(user.getId()));
-        modelAndView.addObject("user_id", user.getId());
-        modelAndView.addObject("username", user.getUsername());
+        UserDto userDto = new UserDto();
+        userDto.setTasklists(tasklistService.getUserTasklists(user.getId()));
+        userDto.setUser_id(user.getId());
+        userDto.setUsername(user.getUsername());
+        modelAndView.addObject("user", userDto);
         return modelAndView;
     }
 }

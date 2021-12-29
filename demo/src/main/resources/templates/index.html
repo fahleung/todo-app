@@ -39,21 +39,21 @@
 
   <div id="sidenav" class="sidenav light">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-    <h3 class="text-a-c" th:text="Welcome+' '+${username}">Welcome </h3>
+    <h3 class="text-a-c" th:text="Welcome+' '+${user.username}">Welcome </h3>
     <form method="post" th:action="@{/logout}">
       <button class="" type="submit">Logout</button>
     </form>
   </div>
 
   <div id="tabs" class="tabs light">
-    <button th:id="${tasklists.name}+_btn" th:each="tasklists: ${tasklists}" class="tablinks"
+    <button th:id="${tasklists.name}+_btn" th:each="tasklists: ${user.tasklists}" class="tablinks"
       th:attr="onclick=|openTasklist(event, '${tasklists.name}')|" th:text="${tasklists.name}"></button>
     <button id="tablinks_add" class="tabslinks" onclick="">+</button>
     <input id="add_tasklist" type="text" placeholder="Create a tasklist" class="display-none">
   </div>
 
 
-  <div th:id="${tasklists.name}" th:each="tasklists: ${tasklists}" class="tabs__content">
+  <div th:id="${tasklists.name}" th:each="tasklists: ${user.tasklists}" class="tabs__content">
     <ul th:id="${tasklists.name}+_list" class="list flex flex-d-col">
       <li class="flex flex-jc-sb flex-ai-c" draggable="true" th:each="tasks,taskIndex : ${tasklists.tasks}">
         <span class="flex flex-ai-c gap-1-10">
@@ -87,8 +87,8 @@
     Coded by <a href="#">Fabien AH-LEUNG</a>.
   </div>
   <script th:inline="javascript">
-    var tasklists = /*[[${tasklists}]]*/[];
-    const user_id = /*[[${user_id}]]*/[];
+    var tasklists = /*[[${user.tasklists}]]*/[];
+    const user_id = /*[[${user.user_id}]]*/[];
 
     if (tasklists === null) {
       tasklists = [];

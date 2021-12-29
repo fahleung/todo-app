@@ -1,4 +1,4 @@
-package com.fahleung.demo.task;
+package com.fahleung.demo.tasklist;
 
 import java.util.Set;
 
@@ -16,6 +16,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import com.fahleung.demo.task.Task;
 import com.fahleung.demo.user.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;

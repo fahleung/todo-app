@@ -57,12 +57,4 @@ public class UserService implements UserDetailsService {
         return userDao.selectUserByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("Username %s not found", username)));
     }
-
-    public boolean isEmailAlreadyInUse(String value) {
-        Optional<User> userOptional = userRepository.findUserByEmail(value);
-        if (userOptional.isPresent()) {
-            return true;
-        }
-        return false;
-    }
 }
