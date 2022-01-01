@@ -31,16 +31,16 @@ public class UserConfig {
             TaskRepository taskRepository) {
         return args -> {
             // CREATE USER
-            User fabien = new User("Fabien", passwordEncoder.encode("azerty123"), passwordEncoder.encode("azerty123"),
+            User user = new User("Fabien", passwordEncoder.encode("azerty123"), passwordEncoder.encode("azerty123"),
                     "fabien@gmail.com");
-            repository.save(fabien);
+            repository.save(user);
             // CREATE TASKLISTS
             Tasklist tasklist1 = new Tasklist("Tasklist1");
             Tasklist tasklist2 = new Tasklist("Tasklist2");
             Tasklist tasklist3 = new Tasklist("Tasklist3");
-            tasklist1.setUser(fabien);
-            tasklist2.setUser(fabien);
-            tasklist3.setUser(fabien);
+            tasklist1.setUser(user);
+            tasklist2.setUser(user);
+            tasklist3.setUser(user);
             Set<Tasklist> set = new HashSet<Tasklist>();
             // CREATE TASKS
             Timestamp stamp = new Timestamp(System.currentTimeMillis());
@@ -74,9 +74,9 @@ public class UserConfig {
             set.add(tasklist2);
             set.add(tasklist3);
 
-            fabien.setTasklists(set);
+            user.setTasklists(set);
 
-            repository.save(fabien);
+            repository.save(user);
 
         };
     }

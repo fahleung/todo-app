@@ -14,7 +14,7 @@ public interface TasklistRepository extends JpaRepository<Tasklist, Long> {
     @Query("SELECT tl FROM Tasklist tl WHERE tl.user.user_id=:id ORDER BY tl.id DESC")
     List<Tasklist> findTasklistByUserId(@Param("id") Long user_id);
 
-    @Query("SELECT tl FROM Tasklist tl WHERE tl.user.user_id=:name")
+    @Query("SELECT tl FROM Tasklist tl WHERE tl.user.username=:name")
     List<Tasklist> findAllTasklistByUsername(@Param("name") String username);
 
     @Query("SELECT tl FROM Tasklist tl WHERE tl.name=:name AND tl.user.user_id=:id")
