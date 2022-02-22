@@ -28,7 +28,7 @@ public class TasklistController {
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping(path = "{user_id}")
     public List<Tasklist> getTasklists(@PathVariable Long user_id) {
-        return tasklistService.getTasklists(user_id);
+        return tasklistService.getUserTasklists(user_id);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")

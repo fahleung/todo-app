@@ -1,20 +1,20 @@
 package com.fahleung.demo.user;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.BDDMockito.verify;
@@ -49,19 +49,15 @@ public class UserServiceTest {
         String username = "Thomas";
         User user = new User("Thomas", "azerty123", "azerty123",
                 "thomas@gmail.com");
-        userRepository.save(user);
-        assertThat(userDao.selectUserByUsername(username).isPresent());
+        when(userDao.selectUserByUsername(username)).thenReturn(Optional.of(user));
+        assertThat(underTest.loadUserByUsername(username)).isInstanceOf(UserDetails.class);
     }
 
     @Test
     void willThrowIfUsernameDoesntExist() {
         String username = "Thomas";
-        User user = new User("Thomas", "azerty123", "azerty123",
-                "thomas@gmail.com");
-        userRepository.save(user);
         assertThatThrownBy(() -> underTest.loadUserByUsername(username)).isInstanceOf(UsernameNotFoundException.class)
                 .hasMessageContaining((String.format("Username %s not found", username)));
-
     }
 
     @Test

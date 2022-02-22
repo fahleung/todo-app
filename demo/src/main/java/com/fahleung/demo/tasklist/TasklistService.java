@@ -1,7 +1,10 @@
 package com.fahleung.demo.tasklist;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+
+import javax.persistence.EntityNotFoundException;
 
 import com.fahleung.demo.user.User;
 import com.fahleung.demo.user.UserRepository;
@@ -23,30 +26,27 @@ public class TasklistService {
         this.userRepository = userRepository;
     }
 
-    public List<Tasklist> getTasklists(Long user_id) {
-        return tasklistRepository.findTasklistByUserId(user_id);
-    }
-
     public ResponseEntity<String> saveTasklist(TasklistDto tasklistDto) {
         Optional<User> user = userRepository.findById(tasklistDto.getUser_id());
         Optional<Tasklist> tasklist = tasklistRepository.findByNameAndUserId(tasklistDto.getName(),
                 tasklistDto.getUser_id());
-        if (user.isPresent()) {
-            // check with current logged user
-            if (!user.get().getUsername().equals(tasklistDto.getLogUsername())) {
-                return new ResponseEntity<>("Access denied", HttpStatus.FORBIDDEN);
-            }
-            // check if tasklist exist
-            if (tasklist.isPresent()) {
-                return new ResponseEntity<>("Tasklist name already exist", HttpStatus.BAD_REQUEST);
-            }
-            Tasklist newTasklist = new Tasklist(
-                    tasklistDto.getName().substring(0, 1).toUpperCase() + tasklistDto.getName().substring(1));
-            newTasklist.setUser(user.get());
-            tasklistRepository.save(newTasklist);
-            return new ResponseEntity<>("Saved", HttpStatus.CREATED);
+        if (!user.isPresent()) {
+            return new ResponseEntity<>("Problem occured", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("Problem occured", HttpStatus.BAD_REQUEST);
+        // check with current logged user
+        if (!user.get().getUsername().equals(tasklistDto.getLogUsername())) {
+            return new ResponseEntity<>("Access denied", HttpStatus.FORBIDDEN);
+        }
+        // check if tasklist exist
+        if (tasklist.isPresent()) {
+            return new ResponseEntity<>("Tasklist name already exist", HttpStatus.BAD_REQUEST);
+        }
+        Tasklist newTasklist = new Tasklist(
+                tasklistDto.getName().substring(0, 1).toUpperCase() + tasklistDto.getName().substring(1));
+        newTasklist.setUser(user.get());
+        tasklistRepository.save(newTasklist);
+        return new ResponseEntity<>("Saved", HttpStatus.CREATED);
+
     }
 
     public List<Tasklist> getUserTasklists(Long user_id) {
@@ -54,7 +54,7 @@ public class TasklistService {
         if (user.isPresent()) {
             return tasklistRepository.findTasklistByUserId(user_id);
         }
-        return null;
+        throw new EntityNotFoundException("User not found");
     }
 
 }
