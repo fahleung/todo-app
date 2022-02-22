@@ -1,6 +1,8 @@
 package com.fahleung.demo.task;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.sql.Timestamp;
@@ -14,6 +16,7 @@ import com.fahleung.demo.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
@@ -21,300 +24,318 @@ import org.springframework.http.HttpStatus;
 @ExtendWith(MockitoExtension.class)
 public class TaskServiceTest {
 
-    @Mock
-    private TaskRepository taskRepository;
-    @Mock
-    private TasklistRepository tasklistRepository;
-    @Mock
-    private UserRepository userRepository;
+        @Mock
+        private TaskRepository taskRepository;
+        @Mock
+        private TasklistRepository tasklistRepository;
+        @Mock
+        private UserRepository userRepository;
 
-    private TaskService underTest;
+        private TaskService underTest;
 
-    @BeforeEach
-    void setUp() {
-        underTest = new TaskService(taskRepository, tasklistRepository, userRepository);
-    }
+        @BeforeEach
+        void setUp() {
+                underTest = new TaskService(taskRepository, tasklistRepository, userRepository);
+        }
 
-    @Test
-    void testSaveTask() {
-        Long id = (long) 1;
-        User user = new User(id, "Fabien", "azerty123",
-                "fabien@gmail.com");
-        Tasklist tasklist = new Tasklist("Tasklist1");
-        TaskDto taskDto = new TaskDto();
-        taskDto.setUser_id(id);
-        taskDto.setTaskname("Task1");
-        taskDto.setTasklistname("Tasklist1");
-        taskDto.setLogUsername("Fabien");
-        when(userRepository.findById(id)).thenReturn(Optional.of(user));
-        when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.of(tasklist));
+        @Test
+        void testSaveTask() {
+                Long id = (long) 1;
+                User user = new User(id, "Fabien", "azerty123",
+                                "fabien@gmail.com");
+                Tasklist tasklist = new Tasklist("Tasklist1");
+                TaskDto taskDto = new TaskDto();
+                taskDto.setUser_id(id);
+                taskDto.setTaskname("Task1");
+                taskDto.setTasklistname("Tasklist1");
+                taskDto.setLogUsername("Fabien");
+                when(userRepository.findById(id)).thenReturn(Optional.of(user));
+                when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.of(tasklist));
 
-        assertTrue(underTest.saveTask(taskDto).getBody().equals("Saved"));
-        assertTrue(underTest.saveTask(taskDto).getStatusCode().equals(HttpStatus.CREATED));
-    }
+                underTest.saveTask(taskDto);
 
-    @Test
-    void testIfUserNotFoundInSaveTask() {
-        Long id = (long) 1;
-        User user = new User(id, "Fabien", "azerty123",
-                "fabien@gmail.com");
-        Tasklist tasklist = new Tasklist("Tasklist1");
-        TaskDto taskDto = new TaskDto();
-        taskDto.setUser_id(id);
-        taskDto.setTaskname("Task1");
-        taskDto.setTasklistname("Tasklist1");
-        taskDto.setLogUsername("Fabien");
-        when(userRepository.findById(id)).thenReturn(Optional.empty());
-        when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.of(tasklist));
+                ArgumentCaptor<Task> taskArgumentCaptor = ArgumentCaptor.forClass(Task.class);
 
-        assertTrue(underTest.saveTask(taskDto).getBody().equals("Problem occured"));
-        assertTrue(underTest.saveTask(taskDto).getStatusCode().equals(HttpStatus.BAD_REQUEST));
-    }
+                verify(taskRepository).save(taskArgumentCaptor.capture());
+                Task capturedTask = taskArgumentCaptor.getValue();
+                assertEquals(capturedTask.getName(), taskDto.getTaskname());
 
-    @Test
-    void testIfWrongUsernameInSaveTask() {
-        Long id = (long) 1;
-        User user = new User(id, "Fabien", "azerty123",
-                "fabien@gmail.com");
-        Tasklist tasklist = new Tasklist("Tasklist1");
-        TaskDto taskDto = new TaskDto();
-        taskDto.setUser_id(id);
-        taskDto.setTaskname("Task1");
-        taskDto.setTasklistname("Tasklist1");
-        taskDto.setLogUsername("Hugo");
-        when(userRepository.findById(id)).thenReturn(Optional.of(user));
-        when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.of(tasklist));
+                assertTrue(underTest.saveTask(taskDto).getBody().equals("Saved"));
+                assertTrue(underTest.saveTask(taskDto).getStatusCode().equals(HttpStatus.CREATED));
+        }
 
-        assertTrue(underTest.saveTask(taskDto).getBody().equals("Access denied"));
-        assertTrue(underTest.saveTask(taskDto).getStatusCode().equals(HttpStatus.FORBIDDEN));
-    }
+        @Test
+        void testIfUserNotFoundInSaveTask() {
+                Long id = (long) 1;
+                User user = new User(id, "Fabien", "azerty123",
+                                "fabien@gmail.com");
+                Tasklist tasklist = new Tasklist("Tasklist1");
+                TaskDto taskDto = new TaskDto();
+                taskDto.setUser_id(id);
+                taskDto.setTaskname("Task1");
+                taskDto.setTasklistname("Tasklist1");
+                taskDto.setLogUsername("Fabien");
+                when(userRepository.findById(id)).thenReturn(Optional.empty());
+                when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.of(tasklist));
 
-    @Test
-    void testIfTasklistDoNotExistInSaveTask() {
-        Long id = (long) 1;
-        User user = new User(id, "Fabien", "azerty123",
-                "fabien@gmail.com");
-        Tasklist tasklist = new Tasklist("Tasklist1");
-        TaskDto taskDto = new TaskDto();
-        taskDto.setUser_id(id);
-        taskDto.setTaskname("Task1");
-        taskDto.setTasklistname("Tasklist1");
-        taskDto.setLogUsername("Fabien");
-        when(userRepository.findById(id)).thenReturn(Optional.of(user));
-        when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.empty());
+                assertTrue(underTest.saveTask(taskDto).getBody().equals("Problem occured"));
+                assertTrue(underTest.saveTask(taskDto).getStatusCode().equals(HttpStatus.BAD_REQUEST));
+        }
 
-        assertTrue(underTest.saveTask(taskDto).getBody().equals("Tasklist doesn't exist"));
-        assertTrue(underTest.saveTask(taskDto).getStatusCode().equals(HttpStatus.BAD_REQUEST));
-    }
+        @Test
+        void testIfWrongUsernameInSaveTask() {
+                Long id = (long) 1;
+                User user = new User(id, "Fabien", "azerty123",
+                                "fabien@gmail.com");
+                Tasklist tasklist = new Tasklist("Tasklist1");
+                TaskDto taskDto = new TaskDto();
+                taskDto.setUser_id(id);
+                taskDto.setTaskname("Task1");
+                taskDto.setTasklistname("Tasklist1");
+                taskDto.setLogUsername("Hugo");
+                when(userRepository.findById(id)).thenReturn(Optional.of(user));
+                when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.of(tasklist));
 
-    @Test
-    void testDeleteTask() {
-        Long id = (long) 1;
-        User user = new User(id, "Fabien", "azerty123",
-                "fabien@gmail.com");
-        Tasklist tasklist = new Tasklist("Tasklist1");
-        TaskDto taskDto = new TaskDto();
-        taskDto.setUser_id(id);
-        taskDto.setTaskname("Task1");
-        taskDto.setTasklistname("Tasklist1");
-        taskDto.setLogUsername("Fabien");
-        Task task = new Task("Task1", new Timestamp(System.currentTimeMillis()), false);
-        when(userRepository.findById(id)).thenReturn(Optional.of(user));
-        when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.of(tasklist));
-        when(taskRepository.findByNameAndTasklistName(taskDto.getTaskname(), taskDto.getTasklistname()))
-                .thenReturn(Optional.of(task));
+                assertTrue(underTest.saveTask(taskDto).getBody().equals("Access denied"));
+                assertTrue(underTest.saveTask(taskDto).getStatusCode().equals(HttpStatus.FORBIDDEN));
+        }
 
-        assertTrue(underTest.deleteTask(taskDto).getBody().equals("Deleted"));
-        assertTrue(underTest.deleteTask(taskDto).getStatusCode().equals(HttpStatus.OK));
-    }
+        @Test
+        void testIfTasklistDoNotExistInSaveTask() {
+                Long id = (long) 1;
+                User user = new User(id, "Fabien", "azerty123",
+                                "fabien@gmail.com");
+                Tasklist tasklist = new Tasklist("Tasklist1");
+                TaskDto taskDto = new TaskDto();
+                taskDto.setUser_id(id);
+                taskDto.setTaskname("Task1");
+                taskDto.setTasklistname("Tasklist1");
+                taskDto.setLogUsername("Fabien");
+                when(userRepository.findById(id)).thenReturn(Optional.of(user));
+                when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.empty());
 
-    @Test
-    void testIfUserNotFoundinDeleteTask() {
-        Long id = (long) 1;
-        User user = new User(id, "Fabien", "azerty123",
-                "fabien@gmail.com");
-        Tasklist tasklist = new Tasklist("Tasklist1");
-        TaskDto taskDto = new TaskDto();
-        taskDto.setUser_id(id);
-        taskDto.setTaskname("Task1");
-        taskDto.setTasklistname("Tasklist1");
-        taskDto.setLogUsername("Fabien");
-        Task task = new Task("Task1", new Timestamp(System.currentTimeMillis()), false);
-        when(userRepository.findById(id)).thenReturn(Optional.empty());
-        when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.of(tasklist));
-        when(taskRepository.findByNameAndTasklistName(taskDto.getTaskname(), taskDto.getTasklistname()))
-                .thenReturn(Optional.of(task));
+                assertTrue(underTest.saveTask(taskDto).getBody().equals("Tasklist doesn't exist"));
+                assertTrue(underTest.saveTask(taskDto).getStatusCode().equals(HttpStatus.BAD_REQUEST));
+        }
 
-        assertTrue(underTest.deleteTask(taskDto).getBody().equals("Problem occured"));
-        assertTrue(underTest.deleteTask(taskDto).getStatusCode().equals(HttpStatus.BAD_REQUEST));
-    }
+        @Test
+        void testDeleteTask() {
+                Long id = (long) 1;
+                User user = new User(id, "Fabien", "azerty123",
+                                "fabien@gmail.com");
+                Tasklist tasklist = new Tasklist("Tasklist1");
+                tasklist.setTasklist_id((long) 1);
+                TaskDto taskDto = new TaskDto();
+                taskDto.setUser_id(id);
+                taskDto.setTaskname("Task1");
+                taskDto.setTasklistname("Tasklist1");
+                taskDto.setLogUsername("Fabien");
+                Task task = new Task("Task1", new Timestamp(System.currentTimeMillis()), false);
+                when(userRepository.findById(id)).thenReturn(Optional.of(user));
+                when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.of(tasklist));
+                when(taskRepository.findByNameAndTasklistName(taskDto.getTaskname(), taskDto.getTasklistname()))
+                                .thenReturn(Optional.of(task));
 
-    @Test
-    void testIfWrongUsernameInDeleteTask() {
-        Long id = (long) 1;
-        User user = new User(id, "Fabien", "azerty123",
-                "fabien@gmail.com");
-        Tasklist tasklist = new Tasklist("Tasklist1");
-        TaskDto taskDto = new TaskDto();
-        taskDto.setUser_id(id);
-        taskDto.setTaskname("Task1");
-        taskDto.setTasklistname("Tasklist1");
-        taskDto.setLogUsername("Hugo");
-        Task task = new Task("Task1", new Timestamp(System.currentTimeMillis()), false);
-        when(userRepository.findById(id)).thenReturn(Optional.of(user));
-        when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.of(tasklist));
-        when(taskRepository.findByNameAndTasklistName(taskDto.getTaskname(), taskDto.getTasklistname()))
-                .thenReturn(Optional.of(task));
+                underTest.deleteTask(taskDto);
 
-        assertTrue(underTest.deleteTask(taskDto).getBody().equals("Access denied"));
-        assertTrue(underTest.deleteTask(taskDto).getStatusCode().equals(HttpStatus.FORBIDDEN));
-    }
+                verify(taskRepository).deleteByNameAndTasklistId(taskDto.getTaskname(), tasklist.getTasklist_id());
+                assertTrue(underTest.deleteTask(taskDto).getBody().equals("Deleted"));
+                assertTrue(underTest.deleteTask(taskDto).getStatusCode().equals(HttpStatus.OK));
+        }
 
-    @Test
-    void testIfTasklistDoNotEXistInDeleteTask() {
-        Long id = (long) 1;
-        User user = new User(id, "Fabien", "azerty123",
-                "fabien@gmail.com");
-        Tasklist tasklist = new Tasklist("Tasklist1");
-        TaskDto taskDto = new TaskDto();
-        taskDto.setUser_id(id);
-        taskDto.setTaskname("Task1");
-        taskDto.setTasklistname("Tasklist1");
-        taskDto.setLogUsername("Fabien");
-        Task task = new Task("Task1", new Timestamp(System.currentTimeMillis()), false);
-        when(userRepository.findById(id)).thenReturn(Optional.of(user));
-        when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.empty());
-        when(taskRepository.findByNameAndTasklistName(taskDto.getTaskname(), taskDto.getTasklistname()))
-                .thenReturn(Optional.of(task));
+        @Test
+        void testIfUserNotFoundinDeleteTask() {
+                Long id = (long) 1;
+                User user = new User(id, "Fabien", "azerty123",
+                                "fabien@gmail.com");
+                Tasklist tasklist = new Tasklist("Tasklist1");
+                TaskDto taskDto = new TaskDto();
+                taskDto.setUser_id(id);
+                taskDto.setTaskname("Task1");
+                taskDto.setTasklistname("Tasklist1");
+                taskDto.setLogUsername("Fabien");
+                Task task = new Task("Task1", new Timestamp(System.currentTimeMillis()), false);
+                when(userRepository.findById(id)).thenReturn(Optional.empty());
+                when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.of(tasklist));
+                when(taskRepository.findByNameAndTasklistName(taskDto.getTaskname(), taskDto.getTasklistname()))
+                                .thenReturn(Optional.of(task));
 
-        assertTrue(underTest.deleteTask(taskDto).getBody().equals("Tasklist doesn't exist"));
-        assertTrue(underTest.deleteTask(taskDto).getStatusCode().equals(HttpStatus.BAD_REQUEST));
-    }
+                assertTrue(underTest.deleteTask(taskDto).getBody().equals("Problem occured"));
+                assertTrue(underTest.deleteTask(taskDto).getStatusCode().equals(HttpStatus.BAD_REQUEST));
+        }
 
-    @Test
-    void testIfTaskDoNotExistInDeleteTask() {
-        Long id = (long) 1;
-        User user = new User(id, "Fabien", "azerty123",
-                "fabien@gmail.com");
-        Tasklist tasklist = new Tasklist("Tasklist1");
-        TaskDto taskDto = new TaskDto();
-        taskDto.setUser_id(id);
-        taskDto.setTaskname("Task1");
-        taskDto.setTasklistname("Tasklist1");
-        taskDto.setLogUsername("Fabien");
-        Task task = new Task("Task1", new Timestamp(System.currentTimeMillis()), false);
-        when(userRepository.findById(id)).thenReturn(Optional.of(user));
-        when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.of(tasklist));
-        when(taskRepository.findByNameAndTasklistName(taskDto.getTaskname(), taskDto.getTasklistname()))
-                .thenReturn(Optional.empty());
+        @Test
+        void testIfWrongUsernameInDeleteTask() {
+                Long id = (long) 1;
+                User user = new User(id, "Fabien", "azerty123",
+                                "fabien@gmail.com");
+                Tasklist tasklist = new Tasklist("Tasklist1");
+                TaskDto taskDto = new TaskDto();
+                taskDto.setUser_id(id);
+                taskDto.setTaskname("Task1");
+                taskDto.setTasklistname("Tasklist1");
+                taskDto.setLogUsername("Hugo");
+                Task task = new Task("Task1", new Timestamp(System.currentTimeMillis()), false);
+                when(userRepository.findById(id)).thenReturn(Optional.of(user));
+                when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.of(tasklist));
+                when(taskRepository.findByNameAndTasklistName(taskDto.getTaskname(), taskDto.getTasklistname()))
+                                .thenReturn(Optional.of(task));
 
-        assertTrue(underTest.deleteTask(taskDto).getBody().equals("Task doesn't exist"));
-        assertTrue(underTest.deleteTask(taskDto).getStatusCode().equals(HttpStatus.BAD_REQUEST));
-    }
+                assertTrue(underTest.deleteTask(taskDto).getBody().equals("Access denied"));
+                assertTrue(underTest.deleteTask(taskDto).getStatusCode().equals(HttpStatus.FORBIDDEN));
+        }
 
-    @Test
-    void testUpdateTask() {
-        Long id = (long) 1;
-        User user = new User(id, "Fabien", "azerty123",
-                "fabien@gmail.com");
-        Tasklist tasklist = new Tasklist("Tasklist1");
-        TaskDto taskDto = new TaskDto();
-        taskDto.setUser_id(id);
-        taskDto.setTaskname("Task1");
-        taskDto.setTasklistname("Tasklist1");
-        taskDto.setLogUsername("Fabien");
-        Task task = new Task("Task1", new Timestamp(System.currentTimeMillis()), false);
-        when(userRepository.findById(id)).thenReturn(Optional.of(user));
-        when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.of(tasklist));
-        when(taskRepository.findByNameAndTasklistName(taskDto.getTaskname(), taskDto.getTasklistname()))
-                .thenReturn(Optional.of(task));
+        @Test
+        void testIfTasklistDoNotEXistInDeleteTask() {
+                Long id = (long) 1;
+                User user = new User(id, "Fabien", "azerty123",
+                                "fabien@gmail.com");
+                Tasklist tasklist = new Tasklist("Tasklist1");
+                TaskDto taskDto = new TaskDto();
+                taskDto.setUser_id(id);
+                taskDto.setTaskname("Task1");
+                taskDto.setTasklistname("Tasklist1");
+                taskDto.setLogUsername("Fabien");
+                Task task = new Task("Task1", new Timestamp(System.currentTimeMillis()), false);
+                when(userRepository.findById(id)).thenReturn(Optional.of(user));
+                when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.empty());
+                when(taskRepository.findByNameAndTasklistName(taskDto.getTaskname(), taskDto.getTasklistname()))
+                                .thenReturn(Optional.of(task));
 
-        assertTrue(underTest.updateTask(taskDto).getBody().equals("Completed"));
-        assertTrue(underTest.updateTask(taskDto).getStatusCode().equals(HttpStatus.OK));
-    }
+                assertTrue(underTest.deleteTask(taskDto).getBody().equals("Tasklist doesn't exist"));
+                assertTrue(underTest.deleteTask(taskDto).getStatusCode().equals(HttpStatus.BAD_REQUEST));
+        }
 
-    @Test
-    void testIfUserNotFoundinUpdateTask() {
-        Long id = (long) 1;
-        User user = new User(id, "Fabien", "azerty123",
-                "fabien@gmail.com");
-        Tasklist tasklist = new Tasklist("Tasklist1");
-        TaskDto taskDto = new TaskDto();
-        taskDto.setUser_id(id);
-        taskDto.setTaskname("Task1");
-        taskDto.setTasklistname("Tasklist1");
-        taskDto.setLogUsername("Fabien");
-        Task task = new Task("Task1", new Timestamp(System.currentTimeMillis()), false);
-        when(userRepository.findById(id)).thenReturn(Optional.empty());
-        when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.of(tasklist));
-        when(taskRepository.findByNameAndTasklistName(taskDto.getTaskname(), taskDto.getTasklistname()))
-                .thenReturn(Optional.of(task));
+        @Test
+        void testIfTaskDoNotExistInDeleteTask() {
+                Long id = (long) 1;
+                User user = new User(id, "Fabien", "azerty123",
+                                "fabien@gmail.com");
+                Tasklist tasklist = new Tasklist("Tasklist1");
+                TaskDto taskDto = new TaskDto();
+                taskDto.setUser_id(id);
+                taskDto.setTaskname("Task1");
+                taskDto.setTasklistname("Tasklist1");
+                taskDto.setLogUsername("Fabien");
+                Task task = new Task("Task1", new Timestamp(System.currentTimeMillis()), false);
+                when(userRepository.findById(id)).thenReturn(Optional.of(user));
+                when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.of(tasklist));
+                when(taskRepository.findByNameAndTasklistName(taskDto.getTaskname(), taskDto.getTasklistname()))
+                                .thenReturn(Optional.empty());
 
-        assertTrue(underTest.updateTask(taskDto).getBody().equals("Problem occured"));
-        assertTrue(underTest.updateTask(taskDto).getStatusCode().equals(HttpStatus.BAD_REQUEST));
-    }
+                assertTrue(underTest.deleteTask(taskDto).getBody().equals("Task doesn't exist"));
+                assertTrue(underTest.deleteTask(taskDto).getStatusCode().equals(HttpStatus.BAD_REQUEST));
+        }
 
-    @Test
-    void testIfWrongUsernameInUpdateTask() {
-        Long id = (long) 1;
-        User user = new User(id, "Fabien", "azerty123",
-                "fabien@gmail.com");
-        Tasklist tasklist = new Tasklist("Tasklist1");
-        TaskDto taskDto = new TaskDto();
-        taskDto.setUser_id(id);
-        taskDto.setTaskname("Task1");
-        taskDto.setTasklistname("Tasklist1");
-        taskDto.setLogUsername("Hugo");
-        Task task = new Task("Task1", new Timestamp(System.currentTimeMillis()), false);
-        when(userRepository.findById(id)).thenReturn(Optional.of(user));
-        when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.of(tasklist));
-        when(taskRepository.findByNameAndTasklistName(taskDto.getTaskname(), taskDto.getTasklistname()))
-                .thenReturn(Optional.of(task));
+        @Test
+        void testUpdateTask() {
+                Long id = (long) 1;
+                User user = new User(id, "Fabien", "azerty123",
+                                "fabien@gmail.com");
+                Tasklist tasklist = new Tasklist("Tasklist1");
+                tasklist.setTasklist_id((long) 1);
+                TaskDto taskDto = new TaskDto();
+                taskDto.setUser_id(id);
+                taskDto.setTaskname("Task1");
+                taskDto.setTasklistname("Tasklist1");
+                taskDto.setLogUsername("Fabien");
+                taskDto.setCompleted(true);
+                Task task = new Task("Task1", new Timestamp(System.currentTimeMillis()), false);
+                when(userRepository.findById(id)).thenReturn(Optional.of(user));
+                when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.of(tasklist));
+                when(taskRepository.findByNameAndTasklistName(taskDto.getTaskname(), taskDto.getTasklistname()))
+                                .thenReturn(Optional.of(task));
 
-        assertTrue(underTest.updateTask(taskDto).getBody().equals("Access denied"));
-        assertTrue(underTest.updateTask(taskDto).getStatusCode().equals(HttpStatus.FORBIDDEN));
-    }
+                underTest.updateTask(taskDto);
 
-    @Test
-    void testIfTasklistDoNotEXistInUpdateTask() {
-        Long id = (long) 1;
-        User user = new User(id, "Fabien", "azerty123",
-                "fabien@gmail.com");
-        Tasklist tasklist = new Tasklist("Tasklist1");
-        TaskDto taskDto = new TaskDto();
-        taskDto.setUser_id(id);
-        taskDto.setTaskname("Task1");
-        taskDto.setTasklistname("Tasklist1");
-        taskDto.setLogUsername("Fabien");
-        Task task = new Task("Task1", new Timestamp(System.currentTimeMillis()), false);
-        when(userRepository.findById(id)).thenReturn(Optional.of(user));
-        when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.empty());
-        when(taskRepository.findByNameAndTasklistName(taskDto.getTaskname(), taskDto.getTasklistname()))
-                .thenReturn(Optional.of(task));
+                verify(taskRepository).switchCompleteTaskByNameAndTasklistId(taskDto.getTaskname(),
+                                tasklist.getTasklist_id(), taskDto.isCompleted());
+                assertTrue(underTest.updateTask(taskDto).getBody().equals("Completed"));
+                assertTrue(underTest.updateTask(taskDto).getStatusCode().equals(HttpStatus.OK));
+        }
 
-        assertTrue(underTest.updateTask(taskDto).getBody().equals("Tasklist doesn't exist"));
-        assertTrue(underTest.updateTask(taskDto).getStatusCode().equals(HttpStatus.BAD_REQUEST));
-    }
+        @Test
+        void testIfUserNotFoundinUpdateTask() {
+                Long id = (long) 1;
+                User user = new User(id, "Fabien", "azerty123",
+                                "fabien@gmail.com");
+                Tasklist tasklist = new Tasklist("Tasklist1");
+                TaskDto taskDto = new TaskDto();
+                taskDto.setUser_id(id);
+                taskDto.setTaskname("Task1");
+                taskDto.setTasklistname("Tasklist1");
+                taskDto.setLogUsername("Fabien");
+                Task task = new Task("Task1", new Timestamp(System.currentTimeMillis()), false);
+                when(userRepository.findById(id)).thenReturn(Optional.empty());
+                when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.of(tasklist));
+                when(taskRepository.findByNameAndTasklistName(taskDto.getTaskname(), taskDto.getTasklistname()))
+                                .thenReturn(Optional.of(task));
 
-    @Test
-    void testIfTaskDoNotExistInUpdateTask() {
-        Long id = (long) 1;
-        User user = new User(id, "Fabien", "azerty123",
-                "fabien@gmail.com");
-        Tasklist tasklist = new Tasklist("Tasklist1");
-        TaskDto taskDto = new TaskDto();
-        taskDto.setUser_id(id);
-        taskDto.setTaskname("Task1");
-        taskDto.setTasklistname("Tasklist1");
-        taskDto.setLogUsername("Fabien");
-        Task task = new Task("Task1", new Timestamp(System.currentTimeMillis()), false);
-        when(userRepository.findById(id)).thenReturn(Optional.of(user));
-        when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.of(tasklist));
-        when(taskRepository.findByNameAndTasklistName(taskDto.getTaskname(), taskDto.getTasklistname()))
-                .thenReturn(Optional.empty());
+                assertTrue(underTest.updateTask(taskDto).getBody().equals("Problem occured"));
+                assertTrue(underTest.updateTask(taskDto).getStatusCode().equals(HttpStatus.BAD_REQUEST));
+        }
 
-        assertTrue(underTest.updateTask(taskDto).getBody().equals("Task doesn't exist"));
-        assertTrue(underTest.updateTask(taskDto).getStatusCode().equals(HttpStatus.BAD_REQUEST));
-    }
+        @Test
+        void testIfWrongUsernameInUpdateTask() {
+                Long id = (long) 1;
+                User user = new User(id, "Fabien", "azerty123",
+                                "fabien@gmail.com");
+                Tasklist tasklist = new Tasklist("Tasklist1");
+                TaskDto taskDto = new TaskDto();
+                taskDto.setUser_id(id);
+                taskDto.setTaskname("Task1");
+                taskDto.setTasklistname("Tasklist1");
+                taskDto.setLogUsername("Hugo");
+                Task task = new Task("Task1", new Timestamp(System.currentTimeMillis()), false);
+                when(userRepository.findById(id)).thenReturn(Optional.of(user));
+                when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.of(tasklist));
+                when(taskRepository.findByNameAndTasklistName(taskDto.getTaskname(), taskDto.getTasklistname()))
+                                .thenReturn(Optional.of(task));
+
+                assertTrue(underTest.updateTask(taskDto).getBody().equals("Access denied"));
+                assertTrue(underTest.updateTask(taskDto).getStatusCode().equals(HttpStatus.FORBIDDEN));
+        }
+
+        @Test
+        void testIfTasklistDoNotEXistInUpdateTask() {
+                Long id = (long) 1;
+                User user = new User(id, "Fabien", "azerty123",
+                                "fabien@gmail.com");
+                Tasklist tasklist = new Tasklist("Tasklist1");
+                TaskDto taskDto = new TaskDto();
+                taskDto.setUser_id(id);
+                taskDto.setTaskname("Task1");
+                taskDto.setTasklistname("Tasklist1");
+                taskDto.setLogUsername("Fabien");
+                Task task = new Task("Task1", new Timestamp(System.currentTimeMillis()), false);
+                when(userRepository.findById(id)).thenReturn(Optional.of(user));
+                when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.empty());
+                when(taskRepository.findByNameAndTasklistName(taskDto.getTaskname(), taskDto.getTasklistname()))
+                                .thenReturn(Optional.of(task));
+
+                assertTrue(underTest.updateTask(taskDto).getBody().equals("Tasklist doesn't exist"));
+                assertTrue(underTest.updateTask(taskDto).getStatusCode().equals(HttpStatus.BAD_REQUEST));
+        }
+
+        @Test
+        void testIfTaskDoNotExistInUpdateTask() {
+                Long id = (long) 1;
+                User user = new User(id, "Fabien", "azerty123",
+                                "fabien@gmail.com");
+                Tasklist tasklist = new Tasklist("Tasklist1");
+                TaskDto taskDto = new TaskDto();
+                taskDto.setUser_id(id);
+                taskDto.setTaskname("Task1");
+                taskDto.setTasklistname("Tasklist1");
+                taskDto.setLogUsername("Fabien");
+                Task task = new Task("Task1", new Timestamp(System.currentTimeMillis()), false);
+                when(userRepository.findById(id)).thenReturn(Optional.of(user));
+                when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.of(tasklist));
+                when(taskRepository.findByNameAndTasklistName(taskDto.getTaskname(), taskDto.getTasklistname()))
+                                .thenReturn(Optional.empty());
+
+                assertTrue(underTest.updateTask(taskDto).getBody().equals("Task doesn't exist"));
+                assertTrue(underTest.updateTask(taskDto).getStatusCode().equals(HttpStatus.BAD_REQUEST));
+        }
 
 }

@@ -6,6 +6,7 @@ import com.fahleung.demo.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -76,6 +78,13 @@ public class TasklistServiceTest {
         when(userRepository.findById(id)).thenReturn(Optional.of(user));
         when(tasklistRepository.findByNameAndUserId(tasklistDto.getName(), tasklistDto.getUser_id()))
                 .thenReturn(Optional.empty());
+        underTest.saveTasklist(tasklistDto);
+
+        ArgumentCaptor<Tasklist> tasklistArgumentCaptor = ArgumentCaptor.forClass(Tasklist.class);
+
+        verify(tasklistRepository).save(tasklistArgumentCaptor.capture());
+        Tasklist capturedTasklist = tasklistArgumentCaptor.getValue();
+        assertEquals(capturedTasklist.getName(), tasklist.getName());
 
         assertTrue(underTest.saveTasklist(tasklistDto).getBody().equals("Saved"));
         assertTrue(underTest.saveTasklist(tasklistDto).getStatusCode().equals(HttpStatus.CREATED));
