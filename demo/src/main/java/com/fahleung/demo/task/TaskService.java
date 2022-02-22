@@ -95,7 +95,7 @@ public class TaskService {
             }
             taskRepository.switchCompleteTaskByNameAndTasklistId(taskDto.getTaskname(), tasklist.get().getTasklist_id(),
                     taskDto.isCompleted());
-            return new ResponseEntity<>("Deleted", HttpStatus.OK);
+            return new ResponseEntity<>("Completed", HttpStatus.OK);
         }
         return new ResponseEntity<>("Problem occured", HttpStatus.BAD_REQUEST);
     }
