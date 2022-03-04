@@ -1,7 +1,6 @@
 package com.fahleung.demo.tasklist;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;

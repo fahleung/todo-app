@@ -67,8 +67,6 @@ public class TaskServiceTest {
         @Test
         void testIfUserNotFoundInSaveTask() {
                 Long id = (long) 1;
-                User user = new User(id, "Fabien", "azerty123",
-                                "fabien@gmail.com");
                 Tasklist tasklist = new Tasklist("Tasklist1");
                 TaskDto taskDto = new TaskDto();
                 taskDto.setUser_id(id);
@@ -146,8 +144,6 @@ public class TaskServiceTest {
         @Test
         void testIfUserNotFoundinDeleteTask() {
                 Long id = (long) 1;
-                User user = new User(id, "Fabien", "azerty123",
-                                "fabien@gmail.com");
                 Tasklist tasklist = new Tasklist("Tasklist1");
                 TaskDto taskDto = new TaskDto();
                 taskDto.setUser_id(id);
@@ -217,7 +213,6 @@ public class TaskServiceTest {
                 taskDto.setTaskname("Task1");
                 taskDto.setTasklistname("Tasklist1");
                 taskDto.setLogUsername("Fabien");
-                Task task = new Task("Task1", new Timestamp(System.currentTimeMillis()), false);
                 when(userRepository.findById(id)).thenReturn(Optional.of(user));
                 when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.of(tasklist));
                 when(taskRepository.findByNameAndTasklistName(taskDto.getTaskname(), taskDto.getTasklistname()))
@@ -257,8 +252,6 @@ public class TaskServiceTest {
         @Test
         void testIfUserNotFoundinUpdateTask() {
                 Long id = (long) 1;
-                User user = new User(id, "Fabien", "azerty123",
-                                "fabien@gmail.com");
                 Tasklist tasklist = new Tasklist("Tasklist1");
                 TaskDto taskDto = new TaskDto();
                 taskDto.setUser_id(id);
@@ -328,7 +321,6 @@ public class TaskServiceTest {
                 taskDto.setTaskname("Task1");
                 taskDto.setTasklistname("Tasklist1");
                 taskDto.setLogUsername("Fabien");
-                Task task = new Task("Task1", new Timestamp(System.currentTimeMillis()), false);
                 when(userRepository.findById(id)).thenReturn(Optional.of(user));
                 when(tasklistRepository.findByNameAndUserId(tasklist.getName(), id)).thenReturn(Optional.of(tasklist));
                 when(taskRepository.findByNameAndTasklistName(taskDto.getTaskname(), taskDto.getTasklistname()))
